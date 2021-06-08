@@ -1,3 +1,7 @@
 package com.haidev.moviecatalogueapp.ui.tvshow
 
-interface TvShowNavigator
+import com.haidev.moviecatalogueapp.data.model.ListTvShow
+
+interface TvShowNavigator {
+    fun navigateToDetailTvShow(data: ListTvShow.Response.Result)
+}

@@ -1,5 +1,6 @@
 package com.haidev.moviecatalogueapp.ui.movie
 
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
@@ -8,10 +9,8 @@ import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.databinding.FragmentMovieBinding
 import com.haidev.moviecatalogueapp.ui.base.BaseFragment
+import com.haidev.moviecatalogueapp.utils.*
 import com.haidev.moviecatalogueapp.utils.enum.Status
-import com.haidev.moviecatalogueapp.utils.gone
-import com.haidev.moviecatalogueapp.utils.observe
-import com.haidev.moviecatalogueapp.utils.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFragment : BaseFragment<FragmentMovieBinding, MovieViewModel>(),
@@ -43,7 +42,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MovieViewModel>(),
         binding.rvMovie.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
-            movieListAdapter = MovieListAdapter()
+            movieListAdapter = MovieListAdapter(this@MovieFragment)
             adapter = movieListAdapter
         }
     }
@@ -84,4 +83,8 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MovieViewModel>(),
         }
     }
 
+    override fun navigateToDetailMovie(data: ListMovie.Response.Result) {
+        val intent = Intent(activity?.applicationContext, DetailMovieActivity::class.java)
+        activity?.startActivity(intent)
+    }
 }

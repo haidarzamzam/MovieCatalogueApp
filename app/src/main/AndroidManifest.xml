@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieCatalogueApp">
-        <activity android:name=".ui.base.MainActivity">
+        <activity android:name=".ui.tvshow.DetailTvShowActivity"></activity>
+        <activity android:name=".ui.movie.DetailMovieActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -16,6 +16,6 @@ fun ImageView.setGlideImage(imageUrl: String?) {
                 this
             )
         else
-            Glide.with(context).load("https://image.tmdb.org/t/p/w500/$it").into(this)
+            Glide.with(context).load("https://image.tmdb.org/t/p/w200/$it").into(this)
     }
 }

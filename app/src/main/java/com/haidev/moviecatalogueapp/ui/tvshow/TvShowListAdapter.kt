@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
 import com.haidev.moviecatalogueapp.databinding.ItemRowTvShowBinding
 
-class TvShowListAdapter :
+class TvShowListAdapter(private val navigator: TvShowNavigator) :
     RecyclerView.Adapter<TvShowListAdapter.ViewHolder>() {
 
     private var list = mutableListOf<ListTvShow.Response.Result>()
@@ -42,6 +42,9 @@ class TvShowListAdapter :
             data: ListTvShow.Response.Result
         ) {
             binding.item = data
+            itemView.setOnClickListener {
+                navigator.navigateToDetailTvShow(data)
+            }
         }
     }
 }

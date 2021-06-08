@@ -1,5 +1,6 @@
 package com.haidev.moviecatalogueapp.ui.tvshow
 
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
@@ -42,7 +43,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
         binding.rvTvShow.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
-            tvShowListAdapter = TvShowListAdapter()
+            tvShowListAdapter = TvShowListAdapter(this@TvShowFragment)
             adapter = tvShowListAdapter
         }
     }
@@ -81,6 +82,11 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
                 groupContent.visible()
             }
         }
+    }
+
+    override fun navigateToDetailTvShow(data: ListTvShow.Response.Result) {
+        val intent = Intent(activity?.applicationContext, DetailTvShowActivity::class.java)
+        activity?.startActivity(intent)
     }
 
 }

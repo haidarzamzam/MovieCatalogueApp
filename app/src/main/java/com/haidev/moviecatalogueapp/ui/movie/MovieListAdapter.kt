@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.databinding.ItemRowMovieBinding
 
-class MovieListAdapter :
+class MovieListAdapter(private val navigator: MovieNavigator) :
     RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 
     private var list = mutableListOf<ListMovie.Response.Result>()
@@ -42,6 +42,9 @@ class MovieListAdapter :
             data: ListMovie.Response.Result
         ) {
             binding.item = data
+            itemView.setOnClickListener {
+                navigator.navigateToDetailMovie(data)
+            }
         }
     }
 }

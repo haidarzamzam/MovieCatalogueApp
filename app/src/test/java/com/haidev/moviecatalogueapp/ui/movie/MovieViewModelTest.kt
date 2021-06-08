@@ -64,6 +64,7 @@ class MovieViewModelTest {
 
             // THEN
             Mockito.verify(responseObserver).onChanged(Resource.loading(null))
+            print(viewModel.dataListMovie.value?.data?.results)
             Mockito.verify(responseObserver).onChanged(Resource.success(response))
             viewModel.dataListMovie.removeObserver(responseObserver)
         }

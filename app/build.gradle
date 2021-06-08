@@ -20,11 +20,13 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "API_KEY", "\"3d31335928249bca6a9f04d1d9d85d03\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "API_KEY", "\"3d31335928249bca6a9f04d1d9d85d03\""
         }
     }
     compileOptions {
@@ -63,7 +65,6 @@ dependencies {
     //ui
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
@@ -73,9 +74,6 @@ dependencies {
 
     //support multidex
     implementation "androidx.multidex:multidex:$multi_dex_version"
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //testing
     testImplementation "junit:junit:$junitVersion"
@@ -90,7 +88,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$androidCoreTestVersion"
 
     //architecture component
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
 
     //koin
     implementation "org.koin:koin-android:$koin_version"

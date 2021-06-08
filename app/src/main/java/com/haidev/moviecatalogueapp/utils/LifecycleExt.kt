@@ -1,15 +1,13 @@
 package com.haidev.moviecatalogueapp.utils
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-
-/*
-fun <T> Fragment.observeFragment(liveData: LiveData<T>, action: (t: T) -> Unit) {
-    liveData.observe(viewLifecycleOwner, Observer { action.invoke(it) })
-}
-*/
 
 fun <T> Fragment.observe(liveData: LiveData<T>, action: (t: T) -> Unit) {
-    liveData.observe(viewLifecycleOwner, Observer { action.invoke(it) })
+    liveData.observe(viewLifecycleOwner, { action.invoke(it) })
+}
+
+fun <T> AppCompatActivity.observeActivity(liveData: LiveData<T>, action: (t: T) -> Unit) {
+    liveData.observe(this, { action.invoke(it) })
 }
