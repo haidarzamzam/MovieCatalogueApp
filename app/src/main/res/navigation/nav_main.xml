@@ -9,4 +9,13 @@
         android:id="@+id/splashFragment"
         android:name="com.haidev.moviecatalogueapp.ui.splash.SplashFragment"
         tools:layout="@layout/fragment_splash" />
+
+    <action
+        android:id="@+id/action_to_homeFragment"
+        app:destination="@id/homeFragment" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.haidev.moviecatalogueapp.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home" />
 </navigation>

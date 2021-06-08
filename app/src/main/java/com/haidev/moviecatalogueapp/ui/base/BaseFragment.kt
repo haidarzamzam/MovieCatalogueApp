@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>>(private val toolbar: Boolean) :
+abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>> :
     Fragment(), CoroutineScope {
 
     private lateinit var job: Job
@@ -59,7 +59,7 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>>(pri
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataBinding.setVariable(28, baseViewModel)
+        //dataBinding.setVariable(28, baseViewModel)
         onInitialization()
         dataBinding.executePendingBindings()
     }

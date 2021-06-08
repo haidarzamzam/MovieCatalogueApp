@@ -1,10 +1,10 @@
 package com.haidev.moviecatalogueapp.di
 
+import com.haidev.moviecatalogueapp.BuildConfig
 import com.haidev.moviecatalogueapp.data.source.remote.provideApiBasic
 import com.haidev.moviecatalogueapp.data.source.remote.provideCacheInterceptor
 import com.haidev.moviecatalogueapp.data.source.remote.provideHttpLoggingInterceptor
 import com.haidev.moviecatalogueapp.data.source.remote.provideMoshiConverter
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val remoteModule = module {
@@ -13,7 +13,7 @@ val remoteModule = module {
     single { provideMoshiConverter() }
     single {
         provideApiBasic(
-            get(named(BASE_URL)),
+            BuildConfig.API_URL,
             get()
         )
     }
