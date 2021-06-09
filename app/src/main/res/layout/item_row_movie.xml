@@ -20,7 +20,7 @@
 
             <ImageView
                 android:id="@+id/img_poster"
-                srcGlide="@{item.backdrop_path}"
+                srcGlide="@{item.poster_path}"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_alignParentStart="true"

@@ -1,7 +1,6 @@
 package com.haidev.moviecatalogueapp.ui.movie
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.haidev.moviecatalogueapp.data.model.ListMovie
@@ -14,7 +13,7 @@ import kotlinx.coroutines.launch
 class MovieViewModel(private val apiRepository: ApiRepository, application: Application) :
     BaseViewModel<MovieNavigator>(application) {
     private val _listMovie = MutableLiveData<Resource<ListMovie.Response>>()
-    val dataListMovie: LiveData<Resource<ListMovie.Response>>
+    val dataListMovie: MutableLiveData<Resource<ListMovie.Response>>
         get() = _listMovie
 
     fun getListMovieAsync() {

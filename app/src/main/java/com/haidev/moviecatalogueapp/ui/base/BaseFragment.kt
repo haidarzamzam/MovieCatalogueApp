@@ -43,7 +43,6 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>> :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         job = Job()
     }
 
@@ -83,9 +82,5 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>> :
     override fun onDestroyView() {
         super.onDestroyView()
         onFragmentDestroyed()
-    }
-
-    fun changeOrientation(orientation: Int) {
-        activity?.requestedOrientation = orientation
     }
 }

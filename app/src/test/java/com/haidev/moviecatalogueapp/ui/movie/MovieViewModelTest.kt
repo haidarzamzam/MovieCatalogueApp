@@ -2,24 +2,26 @@ package com.haidev.moviecatalogueapp.ui.movie
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
+import com.haidev.moviecatalogueapp.ui.utils.observeTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
 class MovieViewModelTest {
-
     @get:Rule
     val textInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
@@ -33,40 +35,43 @@ class MovieViewModelTest {
     private lateinit var viewModel: MovieViewModel
 
     @Mock
+    private lateinit var navigator: MovieNavigator
+
+    @Mock
     private lateinit var apiRepo: ApiRepository
 
     @Mock
     private lateinit var response: ListMovie.Response
 
-    @Mock
-    private lateinit var responseObserver: Observer<Resource<ListMovie.Response>>
-
     @ObsoleteCoroutinesApi
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         viewModel =
             MovieViewModel(
                 apiRepo,
                 app
             )
+        viewModel.navigator = navigator
     }
 
+
     @Test
-    fun `given success response when get manage list movie`() {
+    fun `given success response when get list movie`() {
         testCoroutineRule.runBlockingTest {
             // GIVEN
-            Mockito.`when`(apiRepo.getListMovie()).thenReturn(response)
+            Mockito.`when`(apiRepo.getListMovie())
+                .thenReturn(response)
 
-            // WHEN
-            viewModel.dataListMovie.observeForever(responseObserver)
-            viewModel.getListMovieAsync()
+            viewModel.dataListMovie.observeTest {
+                // WHEN
+                viewModel.getListMovieAsync()
 
-            // THEN
-            Mockito.verify(responseObserver).onChanged(Resource.loading(null))
-            print(viewModel.dataListMovie.value?.data?.results)
-            Mockito.verify(responseObserver).onChanged(Resource.success(response))
-            viewModel.dataListMovie.removeObserver(responseObserver)
+                print(viewModel.dataListMovie.value?.data?.results)
+                // THEN
+                Mockito.verify(it).onChanged(Resource.loading())
+                Mockito.verify(it).onChanged(Resource.success(response))
+            }
         }
     }
 }

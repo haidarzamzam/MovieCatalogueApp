@@ -11,13 +11,18 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:tabBackground="@color/white"
+            app:tabGravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabTextColor="@android:color/white" />
+            app:tabIndicator="@drawable/shape_indicator_tab"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabMode="scrollable"
+            app:tabTextColor="@android:color/black" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"

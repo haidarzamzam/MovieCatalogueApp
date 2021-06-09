@@ -56,8 +56,4 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<out Any>> :
         super.onDestroy()
         job.cancel()
     }
-
-    fun changeOrientation(orientation: Int) {
-        requestedOrientation = orientation
-    }
 }
