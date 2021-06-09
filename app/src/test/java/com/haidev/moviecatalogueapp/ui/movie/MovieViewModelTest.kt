@@ -7,8 +7,10 @@ import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
 import com.haidev.moviecatalogueapp.ui.utils.observeTest
+import com.haidev.moviecatalogueapp.utils.DataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -60,6 +62,9 @@ class MovieViewModelTest {
     fun `given success response when get list movie`() {
         testCoroutineRule.runBlockingTest {
             // GIVEN
+            val dummyMovies: ListMovie.Response = DataDummy.generateDummyMovie()
+            response = dummyMovies
+
             Mockito.`when`(apiRepo.getListMovie())
                 .thenReturn(response)
 
@@ -67,8 +72,9 @@ class MovieViewModelTest {
                 // WHEN
                 viewModel.getListMovieAsync()
 
-                print(viewModel.dataListMovie.value?.data?.results)
                 // THEN
+                Assert.assertNotNull(viewModel.dataListMovie.value)
+                Assert.assertEquals(1, viewModel.dataListMovie.value?.data?.results?.size)
                 Mockito.verify(it).onChanged(Resource.loading())
                 Mockito.verify(it).onChanged(Resource.success(response))
             }
