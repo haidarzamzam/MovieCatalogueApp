@@ -46,6 +46,8 @@ class MovieViewModelTest {
     @Mock
     private lateinit var response: ListMovie.Response
 
+    private val dummyMovies: ListMovie.Response = DataDummy.generateDummyListMovie()
+
     private val error = Error()
 
     @ObsoleteCoroutinesApi
@@ -62,10 +64,9 @@ class MovieViewModelTest {
 
 
     @Test
-    fun `given success response when get list movie`() {
+    fun `given success response when get list movie and not if null`() {
         testCoroutineRule.runBlockingTest {
             // GIVEN
-            val dummyMovies: ListMovie.Response = DataDummy.generateDummyListMovie()
             response = dummyMovies
 
             Mockito.`when`(apiRepo.getListMovie())
@@ -76,10 +77,10 @@ class MovieViewModelTest {
                 viewModel.getListMovieAsync()
 
                 // THEN
-                Assert.assertNotNull(viewModel.dataListMovie.value)
-                Assert.assertEquals(1, viewModel.dataListMovie.value?.data?.results?.size)
                 Mockito.verify(it).onChanged(Resource.loading())
                 Mockito.verify(it).onChanged(Resource.success(response))
+                Assert.assertNotNull(viewModel.dataListMovie.value)
+                Assert.assertEquals(1, viewModel.dataListMovie.value?.data?.results?.size)
             }
         }
     }
@@ -97,11 +98,7 @@ class MovieViewModelTest {
                 // THEN
                 Mockito.verify(it).onChanged(Resource.loading(null))
                 Mockito.verify(it)
-                    .onChanged(
-                        Resource.error(
-                            ErrorUtils.getErrorThrowableMsg(error), null, error
-                        )
-                    )
+                    .onChanged(Resource.error(ErrorUtils.getErrorThrowableMsg(error), null, error))
             }
         }
     }

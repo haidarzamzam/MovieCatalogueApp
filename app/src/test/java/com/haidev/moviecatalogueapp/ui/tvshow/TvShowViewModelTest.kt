@@ -45,6 +45,8 @@ class TvShowViewModelTest {
     @Mock
     private lateinit var response: ListTvShow.Response
 
+    private val dummyTvSHow: ListTvShow.Response = DataDummy.generateDummyListTvShow()
+
     private val error = Error()
 
     @Before
@@ -62,7 +64,6 @@ class TvShowViewModelTest {
     fun `given success response when get list movie`() {
         testCoroutineRule.runBlockingTest {
             // GIVEN
-            val dummyTvSHow: ListTvShow.Response = DataDummy.generateDummyListTvShow()
             response = dummyTvSHow
 
             Mockito.`when`(apiRepo.getListTvShow())
