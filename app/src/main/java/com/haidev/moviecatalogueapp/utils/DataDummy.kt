@@ -1,10 +1,10 @@
 package com.haidev.moviecatalogueapp.utils
 
 import com.haidev.moviecatalogueapp.data.model.ListMovie
-import java.util.*
+import com.haidev.moviecatalogueapp.data.model.ListTvShow
 
 object DataDummy {
-    fun generateDummyMovie(): ListMovie.Response {
+    fun generateDummyListMovie(): ListMovie.Response {
 
         val movies = ArrayList<ListMovie.Response.Result>()
         movies.add(
@@ -26,13 +26,39 @@ object DataDummy {
             )
         )
 
-        val response = ListMovie.Response(
+        return ListMovie.Response(
             1,
             movies,
             500,
             10000
         )
+    }
 
-        return response
+    fun generateDummyListTvShow(): ListTvShow.Response {
+
+        val tvshows = ArrayList<ListTvShow.Response.Result>()
+        tvshows.add(
+            ListTvShow.Response.Result(
+                "/h48Dpb7ljv8WQvVdyFWVLz64h4G.jpg",
+                "2016-01-25",
+                arrayListOf(80, 10765),
+                63174,
+                "Lucifer",
+                arrayListOf("US"),
+                "en",
+                "Lucifer",
+                "Bored and unhappy as the Lord of Hell, Lucifer Morningstar abandoned his throne and retired to Los Angeles, where he has teamed up with LAPD detective Chloe Decker to take down criminals. But the longer he's away from the underworld, the greater the threat that the worst of humanity could escape.",
+                1464.514,
+                "/4EYPN5mVIhKLfxGruy7Dy41dTVn.jpg",
+                8.5,
+                9132
+            )
+        )
+        return ListTvShow.Response(
+            1,
+            tvshows,
+            500,
+            10000
+        )
     }
 }

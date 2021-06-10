@@ -27,7 +27,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
         binding = getViewDataBinding()
         binding.lifecycleOwner = this
         tvShowViewModel.navigator = this
-        skeleton = binding.rvLoading.applySkeleton(R.layout.item_skeleton_default, 8)
+        skeleton = binding.rvLoading.applySkeleton(R.layout.item_row_list_skeleton, 8)
     }
 
     override fun setLayout() = R.layout.fragment_tv_show
