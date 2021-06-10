@@ -29,7 +29,7 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
 
     private fun initView() {
         val movie =
-            intent.getParcelableExtra<ListTvShow.Response.Result>(DetailTvShowActivity.EXTRA_TV) as ListTvShow.Response.Result
+            intent.getParcelableExtra<ListTvShow.Response.Result>(EXTRA_TV) as ListTvShow.Response.Result
         Glide.with(this).load("https://image.tmdb.org/t/p/w400/${movie.backdrop_path}")
             .into(binding.ivBackdrop)
         Glide.with(this).load("https://image.tmdb.org/t/p/w400/${movie.poster_path}")
