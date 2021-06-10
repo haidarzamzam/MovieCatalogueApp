@@ -12,7 +12,5 @@
 
     <style name="MyTabLayout" parent="@android:style/TextAppearance.Small">
         <item name="android:fontFamily">@font/bebas_neue</item>
-        <item name="textAllCaps">false</item>
-        <item name="android:textAllCaps">false</item>
     </style>
 </resources>

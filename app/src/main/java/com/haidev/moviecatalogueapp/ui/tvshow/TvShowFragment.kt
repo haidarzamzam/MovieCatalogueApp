@@ -86,6 +86,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
 
     override fun navigateToDetailTvShow(data: ListTvShow.Response.Result) {
         val intent = Intent(activity?.applicationContext, DetailTvShowActivity::class.java)
+        intent.putExtra(DetailTvShowActivity.EXTRA_TV, data)
         activity?.startActivity(intent)
     }
 

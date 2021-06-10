@@ -85,6 +85,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MovieViewModel>(),
 
     override fun navigateToDetailMovie(data: ListMovie.Response.Result) {
         val intent = Intent(activity?.applicationContext, DetailMovieActivity::class.java)
+        intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, data)
         activity?.startActivity(intent)
     }
 }

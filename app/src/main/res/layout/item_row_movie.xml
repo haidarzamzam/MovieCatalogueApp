@@ -28,7 +28,7 @@
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/container"
-            app:layout_constraintStart_toEndOf="@id/iv_poster"
+            app:layout_constraintStart_toEndOf="@id/card_poster"
             app:layout_constraintTop_toTopOf="@id/container" />
 
 
@@ -45,7 +45,7 @@
             android:text="@{item.overview}"
             android:textSize="@dimen/size_font_small"
             app:layout_constraintEnd_toEndOf="@id/container"
-            app:layout_constraintStart_toEndOf="@id/iv_poster"
+            app:layout_constraintStart_toEndOf="@id/card_poster"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
@@ -56,8 +56,7 @@
             android:layout_marginStart="@dimen/size_medium"
             android:layout_marginTop="@dimen/size_small"
             android:progressTint="@color/colorPrimary"
-            android:src="@drawable/ic_baseline_star_24"
-            app:layout_constraintStart_toEndOf="@id/iv_poster"
+            app:layout_constraintStart_toEndOf="@id/card_poster"
             app:layout_constraintTop_toBottomOf="@id/tv_overview" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -71,7 +70,7 @@
             app:layout_constraintTop_toTopOf="@id/rating" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/iv_poster"
+            android:id="@+id/card_poster"
             android:layout_width="@dimen/size_width_poster"
             android:layout_height="@dimen/size_height_poster"
             android:layout_centerHorizontal="true"
