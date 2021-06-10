@@ -37,5 +37,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(),
     override fun navigateToHome() {
         val intent = Intent(this@SplashActivity, HomeActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

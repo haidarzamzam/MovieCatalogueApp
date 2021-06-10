@@ -42,6 +42,7 @@ class TvShowListAdapter(private val navigator: TvShowNavigator) :
             data: ListTvShow.Response.Result
         ) {
             binding.item = data
+            binding.rating.rating = data.vote_average.div(2).toFloat()
             itemView.setOnClickListener {
                 navigator.navigateToDetailTvShow(data)
             }

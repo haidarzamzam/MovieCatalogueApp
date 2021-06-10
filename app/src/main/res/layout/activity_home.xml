@@ -6,29 +6,29 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorCloud"
+        android:background="@color/colorDark"
         tools:context=".ui.home.HomeFragment">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="center"
-            android:background="@color/colorCloud"
+            android:background="@color/colorDark"
             android:gravity="center"
+            app:tabIndicatorColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabGravity="center"
             app:tabIndicator="@drawable/shape_indicator_tab"
-            app:tabIndicatorColor="@color/colorBlack"
+            app:tabTextAppearance="@style/MyTabLayout"
             app:tabMode="scrollable"
-            app:tabTextColor="@color/colorBlack" />
+            app:tabTextColor="@color/colorWhite" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/size_wrap"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
