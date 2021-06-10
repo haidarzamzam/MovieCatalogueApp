@@ -37,7 +37,7 @@
         android:ellipsize="end"
         android:lines="2"
         android:maxLines="2"
-        android:textSize="@dimen/size_font_small"
+        android:textSize="@dimen/size_font_12sp"
         app:layout_constraintEnd_toEndOf="@id/container"
         app:layout_constraintStart_toEndOf="@id/iv_poster"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />

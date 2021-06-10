@@ -37,6 +37,8 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
         binding.tvTitle.text = movie.name
         binding.rating.rating = movie.vote_average.div(2).toFloat()
         binding.tvRating.text = "(${movie.vote_average})"
+        binding.tvOverview.text = movie.overview
+        binding.tvReleaseDate.text = movie.first_air_date
         binding.btnBack.setOnClickListener {
             finish()
         }

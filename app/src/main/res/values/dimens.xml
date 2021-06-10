@@ -10,6 +10,12 @@
     <dimen name="size_height_poster">170dp</dimen>
     <dimen name="size_height_container">130dp</dimen>
     <dimen name="size_icon">75dp</dimen>
+    <dimen name="size_height_backdrop">250dp</dimen>
+    <dimen name="size_button_rounded">48dp</dimen>
+    <dimen name="size_padding_button">12dp</dimen>
+    <dimen name="size_height_poster_detail">200dp</dimen>
 
-    <dimen name="size_font_small">12sp</dimen>
+    <dimen name="size_font_12sp">12sp</dimen>
+    <dimen name="size_font_16sp">16sp</dimen>
+    <dimen name="size_font_24sp">24sp</dimen>
 </resources>

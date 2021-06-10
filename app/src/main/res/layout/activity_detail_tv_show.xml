@@ -15,7 +15,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_backdrop"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="@dimen/size_height_backdrop"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="@dimen/size_height_backdrop"
                 android:background="@drawable/bg_image_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,24 +31,24 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_back"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="@dimen/size_button_rounded"
+                android:layout_height="@dimen/size_button_rounded"
+                android:layout_marginStart="@dimen/size_medium"
+                android:layout_marginTop="@dimen/size_medium"
                 android:background="@drawable/bg_rounded_button"
-                android:padding="12dp"
+                android:padding="@dimen/size_padding_button"
                 android:src="@drawable/ic_baseline_arrow_back_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_share"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_width="@dimen/size_button_rounded"
+                android:layout_height="@dimen/size_button_rounded"
+                android:layout_marginTop="@dimen/size_medium"
+                android:layout_marginEnd="@dimen/size_medium"
                 android:background="@drawable/bg_rounded_button"
-                android:padding="12dp"
+                android:padding="@dimen/size_padding_button"
                 android:src="@drawable/ic_baseline_share_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,7 @@
                 android:layout_height="@dimen/size_height_poster"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="@dimen/size_medium"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="@dimen/size_height_poster_detail"
                 android:elevation="@dimen/size_medium"
                 android:innerRadius="@dimen/size_wrap"
                 android:shape="ring"
@@ -79,14 +79,14 @@
                 android:id="@+id/tv_title"
                 android:layout_width="@dimen/size_wrap"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="@dimen/size_medium"
+                android:layout_marginTop="@dimen/size_small"
+                android:layout_marginEnd="@dimen/size_medium"
                 android:ellipsize="end"
                 android:fontFamily="@font/bebas_neue"
                 android:maxLines="3"
                 android:textColor="@color/colorBlack"
-                android:textSize="24sp"
+                android:textSize="@dimen/size_font_24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/card_poster"
                 app:layout_constraintTop_toBottomOf="@id/iv_backdrop" />
@@ -99,7 +99,7 @@
                 android:layout_marginStart="@dimen/size_medium"
                 android:layout_marginTop="@dimen/size_small"
                 android:progressTint="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@id/card_poster"
+                app:layout_constraintBottom_toTopOf="@id/tv_release_date"
                 app:layout_constraintStart_toEndOf="@id/card_poster"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
@@ -112,6 +112,42 @@
                 app:layout_constraintBottom_toBottomOf="@id/rating"
                 app:layout_constraintStart_toEndOf="@id/rating"
                 app:layout_constraintTop_toTopOf="@id/rating" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_release_date"
+                android:layout_width="@dimen/size_wrap"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/size_medium"
+                android:fontFamily="@font/bebas_neue"
+                app:layout_constraintBottom_toBottomOf="@id/card_poster"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card_poster" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/size_medium"
+                android:layout_marginTop="@dimen/size_large"
+                android:fontFamily="@font/bebas_neue"
+                android:text="@string/text_overview"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/size_font_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_poster" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/size_medium"
+                android:layout_marginTop="@dimen/size_extra_small"
+                android:fontFamily="@font/bebas_neue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_overview" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
