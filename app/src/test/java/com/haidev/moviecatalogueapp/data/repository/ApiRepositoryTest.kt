@@ -1,6 +1,8 @@
 package com.haidev.moviecatalogueapp.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.haidev.moviecatalogueapp.data.model.DetailMovie
+import com.haidev.moviecatalogueapp.data.model.DetailTvShow
 import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
@@ -33,8 +35,16 @@ class ApiRepositoryTest {
     @Mock
     private lateinit var responseTvShow: ListTvShow.Response
 
+    @Mock
+    private lateinit var responseDetailMovies: DetailMovie.Response
+
+    @Mock
+    private lateinit var responseDetailTvShow: DetailTvShow.Response
+
     private val dummyMovies: ListMovie.Response = DataDummy.generateDummyListMovie()
     private val dummyTvShow: ListTvShow.Response = DataDummy.generateDummyListTvShow()
+    private val dummyDetailMovies: DetailMovie.Response = DataDummy.generateDummyDetailMovie()
+    private val dummyDetailTvShow: DetailTvShow.Response = DataDummy.generateDummyDetailTvShow()
 
     @Before
     fun setUp() {
@@ -64,6 +74,32 @@ class ApiRepositoryTest {
 
             assertNotNull(responseTvShow)
             assertEquals(1, responseTvShow.results.size)
+        }
+    }
+
+    @Test
+    fun getDetailMovie() {
+        testCoroutineRule.runBlockingTest {
+            responseDetailMovies = dummyDetailMovies
+
+            Mockito.`when`(apiRepo.getDetailMovie("337404"))
+                .thenReturn(responseDetailMovies)
+
+            assertNotNull(responseDetailMovies)
+            assertEquals(337404, responseDetailMovies.id)
+        }
+    }
+
+    @Test
+    fun getDetailTvShow() {
+        testCoroutineRule.runBlockingTest {
+            responseDetailTvShow = dummyDetailTvShow
+
+            Mockito.`when`(apiRepo.getDetailTvShow("63174"))
+                .thenReturn(responseDetailTvShow)
+
+            assertNotNull(responseDetailTvShow)
+            assertEquals(63174, responseDetailTvShow.id)
         }
     }
 }
