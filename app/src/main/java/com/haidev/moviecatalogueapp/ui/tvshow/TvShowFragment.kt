@@ -11,7 +11,7 @@ import com.haidev.moviecatalogueapp.databinding.FragmentTvShowBinding
 import com.haidev.moviecatalogueapp.ui.base.BaseFragment
 import com.haidev.moviecatalogueapp.utils.enum.Status
 import com.haidev.moviecatalogueapp.utils.gone
-import com.haidev.moviecatalogueapp.utils.observe
+import com.haidev.moviecatalogueapp.utils.observeFragment
 import com.haidev.moviecatalogueapp.utils.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -50,7 +50,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
 
     override fun onObserveAction() {
         with(tvShowViewModel) {
-            observe(dataListTvShow, ::handleTvShowData)
+            observeFragment(dataListTvShow, ::handleTvShowData)
         }
     }
 
@@ -76,10 +76,8 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
         with(binding) {
             if (isLoading) {
                 rvLoading.visible()
-                groupContent.gone()
             } else {
                 rvLoading.gone()
-                groupContent.visible()
             }
         }
     }

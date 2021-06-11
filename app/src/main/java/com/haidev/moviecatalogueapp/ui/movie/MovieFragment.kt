@@ -49,7 +49,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MovieViewModel>(),
 
     override fun onObserveAction() {
         with(movieViewModel) {
-            observe(dataListMovie, ::handleMovieData)
+            observeFragment(dataListMovie, ::handleMovieData)
         }
     }
 
@@ -75,10 +75,8 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MovieViewModel>(),
         with(binding) {
             if (isLoading) {
                 rvLoading.visible()
-                groupContent.gone()
             } else {
                 rvLoading.gone()
-                groupContent.visible()
             }
         }
     }

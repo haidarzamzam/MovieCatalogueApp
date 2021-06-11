@@ -43,6 +43,11 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<out Any>> :
         dataBinding = DataBindingUtil.setContentView(this, setLayout())
         rootView = dataBinding.root
         dataBinding.executePendingBindings()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
         onReadyAction()
         onObserveAction()
     }

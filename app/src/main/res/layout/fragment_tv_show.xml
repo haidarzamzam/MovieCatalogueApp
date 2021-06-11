@@ -19,12 +19,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/groupContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="rv_tv_show" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tv_show"
             android:layout_width="match_parent"

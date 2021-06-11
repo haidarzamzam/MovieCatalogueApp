@@ -5,4 +5,6 @@
     <string name="text_movie">Movie</string>
     <string name="text_tv_show">Tv Show</string>
     <string name="text_overview">Overview</string>
+    <string name="text_genres">Genres</string>
+    <string name="text_production_companies">Production Companies</string>
 </resources>
