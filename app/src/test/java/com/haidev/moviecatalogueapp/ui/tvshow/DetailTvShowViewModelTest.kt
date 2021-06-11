@@ -1,0 +1,3 @@
+package com.haidev.moviecatalogueapp.ui.tvshow
+
+class DetailTvShowViewModelTest

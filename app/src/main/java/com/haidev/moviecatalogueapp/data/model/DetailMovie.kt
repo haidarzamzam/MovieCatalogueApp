@@ -4,7 +4,7 @@ object DetailMovie {
     data class Response(
         val adult: Boolean?,
         val backdrop_path: String?,
-        val belongs_to_collection: Any?,
+        val belongs_to_collection: BelongsToCollection?,
         val budget: Int?,
         val genres: List<Genre>?,
         val homepage: String?,
@@ -49,6 +49,13 @@ object DetailMovie {
             val english_name: String?,
             val iso_639_1: String?,
             val name: String?
+        )
+
+        data class BelongsToCollection(
+            val id: Int?,
+            val name: String?,
+            val poster_path: String?,
+            val backdrop_path: String?
         )
     }
 }

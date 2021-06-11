@@ -3,7 +3,7 @@ package com.haidev.moviecatalogueapp.data.model
 object DetailTvShow {
     data class Response(
         val backdrop_path: String?,
-        val created_by: List<Any>?,
+        val created_by: List<CratedByItem>?,
         val episode_run_time: List<Int>?,
         val first_air_date: String?,
         val genres: List<Genre>?,
@@ -15,7 +15,7 @@ object DetailTvShow {
         val last_episode_to_air: LastEpisodeToAir?,
         val name: String?,
         val networks: List<Network>?,
-        val next_episode_to_air: Any?,
+        val next_episode_to_air: NextEpisodeToAir?,
         val number_of_episodes: Int?,
         val number_of_seasons: Int?,
         val origin_country: List<String>?,
@@ -25,7 +25,7 @@ object DetailTvShow {
         val popularity: Double?,
         val poster_path: String?,
         val production_companies: List<ProductionCompany>?,
-        val production_countries: List<Any>?,
+        val production_countries: List<ProductionCountry>?,
         val seasons: List<Season>?,
         val spoken_languages: List<SpokenLanguage>?,
         val status: String?,
@@ -34,9 +34,30 @@ object DetailTvShow {
         val vote_average: Double?,
         val vote_count: Int?
     ) {
+        data class CratedByItem(
+            val credit_id: String?,
+            val gender: Int?,
+            val id: Int?,
+            val name: String?,
+            val profile_path: String?
+        )
+
         data class Genre(
             val id: Int?,
             val name: String?
+        )
+
+        data class NextEpisodeToAir(
+            val air_date: String?,
+            val episode_number: Int?,
+            val id: Int?,
+            val name: String?,
+            val overview: String?,
+            val production_code: String?,
+            val season_number: Int?,
+            val still_path: String?,
+            val vote_average: Any?,
+            val vote_count: Int?
         )
 
         data class LastEpisodeToAir(
@@ -64,6 +85,11 @@ object DetailTvShow {
             val logo_path: String?,
             val name: String?,
             val origin_country: String?
+        )
+
+        data class ProductionCountry(
+            val name: String?,
+            val iso_3166_1: String?
         )
 
         data class Season(
