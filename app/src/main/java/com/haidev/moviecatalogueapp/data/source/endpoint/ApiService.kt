@@ -28,7 +28,7 @@ interface ApiService {
 
     @GET("tv/{id_tv}")
     fun getDetailTvShow(
-        @Query("api_key") api_key: String?,
-        @Path("id_tv") id_tv: String?
+        @Path("id_tv") id_tv: String?,
+        @Query("api_key") api_key: String?
     ): Deferred<DetailTvShow.Response>
 }

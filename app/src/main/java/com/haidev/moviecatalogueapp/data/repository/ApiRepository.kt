@@ -23,6 +23,6 @@ class ApiRepository(
     }
 
     suspend fun getDetailTvShow(idTvShow: String): DetailTvShow.Response {
-        return apiService.getDetailTvShow(BuildConfig.API_KEY, idTvShow).await()
+        return apiService.getDetailTvShow(idTvShow, BuildConfig.API_KEY).await()
     }
 }

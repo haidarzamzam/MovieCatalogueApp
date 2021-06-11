@@ -44,9 +44,9 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
 
     private fun initSkeleton() {
         skeletonGenres =
-            binding.rvLoadingGenres.applySkeleton(R.layout.item_row_skeleton_movie_genres, 4)
+            binding.rvLoadingGenres.applySkeleton(R.layout.item_row_skeleton_genres, 4)
         skeletonProduction = binding.rvLoadingProduction.applySkeleton(
-            R.layout.item_row_skeleton_movie_production,
+            R.layout.item_row_skeleton_production,
             4
         )
     }

@@ -3,7 +3,7 @@ package com.haidev.moviecatalogueapp.data.model
 object DetailTvShow {
     data class Response(
         val backdrop_path: String?,
-        val created_by: List<String>?,
+        val created_by: List<Any>?,
         val episode_run_time: List<Int>?,
         val first_air_date: String?,
         val genres: List<Genre>?,
@@ -15,7 +15,7 @@ object DetailTvShow {
         val last_episode_to_air: LastEpisodeToAir?,
         val name: String?,
         val networks: List<Network>?,
-        val next_episode_to_air: String?,
+        val next_episode_to_air: Any?,
         val number_of_episodes: Int?,
         val number_of_seasons: Int?,
         val origin_country: List<String>?,
@@ -25,7 +25,7 @@ object DetailTvShow {
         val popularity: Double?,
         val poster_path: String?,
         val production_companies: List<ProductionCompany>?,
-        val production_countries: List<String?>?,
+        val production_countries: List<Any>?,
         val seasons: List<Season>?,
         val spoken_languages: List<SpokenLanguage>?,
         val status: String?,
@@ -47,8 +47,8 @@ object DetailTvShow {
             val overview: String?,
             val production_code: String?,
             val season_number: Int?,
-            val still_path: String??,
-            val vote_average: Int?,
+            val still_path: String?,
+            val vote_average: Any?,
             val vote_count: Int?
         )
 

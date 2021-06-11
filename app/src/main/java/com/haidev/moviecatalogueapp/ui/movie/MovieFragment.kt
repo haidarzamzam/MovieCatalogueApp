@@ -26,7 +26,7 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MovieViewModel>(),
         binding = getViewDataBinding()
         binding.lifecycleOwner = this
         movieViewModel.navigator = this
-        skeleton = binding.rvLoading.applySkeleton(R.layout.item_row_list_skeleton, 8)
+        skeleton = binding.rvLoading.applySkeleton(R.layout.item_row_skeleton_list, 8)
     }
 
     override fun setLayout() = R.layout.fragment_movie
