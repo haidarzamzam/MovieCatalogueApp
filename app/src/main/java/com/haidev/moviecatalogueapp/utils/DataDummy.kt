@@ -137,7 +137,7 @@ object DataDummy {
             "",
             5,
             "/cYY0U8DAkCRAWO6rnIcZ2gW17Fz.jpg",
-            10,
+            10.0,
             1
         )
         val nextEpisodeToAir = DetailTvShow.Response.NextEpisodeToAir(
@@ -149,7 +149,7 @@ object DataDummy {
             "",
             6,
             "",
-            0,
+            10.0,
             0
         )
         val networks = listOf(

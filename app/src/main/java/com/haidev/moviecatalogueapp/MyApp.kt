@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
 import com.haidev.moviecatalogueapp.di.apiRepositoryModule
+import com.haidev.moviecatalogueapp.di.localModule
 import com.haidev.moviecatalogueapp.di.remoteModule
 import com.haidev.moviecatalogueapp.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -33,6 +34,7 @@ class MyApp : Application() {
                     viewModelModule,
                     apiRepositoryModule,
                     remoteModule,
+                    localModule,
                 )
             )
         }

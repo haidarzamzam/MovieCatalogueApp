@@ -1,6 +1,12 @@
 package com.haidev.moviecatalogueapp.data.model
 
+import android.os.Parcelable
+import androidx.room.Entity
+import kotlinx.android.parcel.Parcelize
+
 object DetailTvShow {
+    @Entity(tableName = "tv_show_table")
+    @Parcelize
     data class Response(
         val backdrop_path: String?,
         val created_by: List<CratedByItem>?,
@@ -33,20 +39,23 @@ object DetailTvShow {
         val type: String?,
         val vote_average: Double?,
         val vote_count: Int?
-    ) {
+    ) : Parcelable {
+        @Parcelize
         data class CratedByItem(
             val credit_id: String?,
             val gender: Int?,
             val id: Int?,
             val name: String?,
             val profile_path: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class Genre(
             val id: Int?,
             val name: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class NextEpisodeToAir(
             val air_date: String?,
             val episode_number: Int?,
@@ -56,10 +65,11 @@ object DetailTvShow {
             val production_code: String?,
             val season_number: Int?,
             val still_path: String?,
-            val vote_average: Any?,
+            val vote_average: Double?,
             val vote_count: Int?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class LastEpisodeToAir(
             val air_date: String?,
             val episode_number: Int?,
@@ -69,29 +79,33 @@ object DetailTvShow {
             val production_code: String?,
             val season_number: Int?,
             val still_path: String?,
-            val vote_average: Any?,
+            val vote_average: Double?,
             val vote_count: Int?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class Network(
             val id: Int?,
             val logo_path: String?,
             val name: String?,
             val origin_country: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class ProductionCompany(
             val id: Int?,
             val logo_path: String?,
             val name: String?,
             val origin_country: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class ProductionCountry(
             val name: String?,
             val iso_3166_1: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class Season(
             val air_date: String?,
             val episode_count: Int?,
@@ -100,13 +114,14 @@ object DetailTvShow {
             val overview: String?,
             val poster_path: String?,
             val season_number: Int?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class SpokenLanguage(
             val english_name: String?,
             val iso_639_1: String?,
             val name: String?
-        )
+        ) : Parcelable
     }
 
 

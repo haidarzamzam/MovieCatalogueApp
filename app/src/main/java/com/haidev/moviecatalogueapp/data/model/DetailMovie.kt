@@ -1,6 +1,12 @@
 package com.haidev.moviecatalogueapp.data.model
 
+import android.os.Parcelable
+import androidx.room.Entity
+import kotlinx.android.parcel.Parcelize
+
 object DetailMovie {
+    @Entity(tableName = "movie_table")
+    @Parcelize
     data class Response(
         val adult: Boolean?,
         val backdrop_path: String?,
@@ -27,35 +33,40 @@ object DetailMovie {
         val video: Boolean?,
         val vote_average: Double?,
         val vote_count: Int?
-    ) {
+    ) : Parcelable {
+        @Parcelize
         data class Genre(
             val id: Int?,
             val name: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class ProductionCompany(
             val id: Int?,
             val logo_path: String?,
             val name: String?,
             val origin_country: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class ProductionCountry(
             val iso_3166_1: String?,
             val name: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class SpokenLanguage(
             val english_name: String?,
             val iso_639_1: String?,
             val name: String?
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class BelongsToCollection(
             val id: Int?,
             val name: String?,
             val poster_path: String?,
             val backdrop_path: String?
-        )
+        ) : Parcelable
     }
 }
