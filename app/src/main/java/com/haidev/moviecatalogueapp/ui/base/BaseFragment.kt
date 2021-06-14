@@ -17,7 +17,8 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>> :
     Fragment(), CoroutineScope {
 
     private lateinit var job: Job
-    private lateinit var dataBinding: T
+    private var _binding: T? = null
+    private val binding get() = _binding!!
     private lateinit var rootView: View
     private val baseViewModel by lazy { getViewModels() }
 
@@ -36,7 +37,7 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>> :
 
     open fun onFragmentDestroyed() = Unit
 
-    open fun getViewDataBinding() = dataBinding
+    open fun getViewDataBinding() = binding
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -51,16 +52,15 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>> :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dataBinding = DataBindingUtil.inflate(inflater, setLayout(), container, false)
-        rootView = dataBinding.root
+        _binding = DataBindingUtil.inflate(inflater, setLayout(), container, false)
+        rootView = binding.root
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //dataBinding.setVariable(28, baseViewModel)
         onInitialization()
-        dataBinding.executePendingBindings()
+        binding.executePendingBindings()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

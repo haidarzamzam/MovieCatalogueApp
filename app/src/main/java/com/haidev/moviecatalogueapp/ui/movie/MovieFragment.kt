@@ -17,13 +17,14 @@ class MovieFragment : BaseFragment<FragmentMovieBinding, MovieViewModel>(),
     MovieNavigator {
 
     private val movieViewModel: MovieViewModel by viewModel()
-    private lateinit var binding: FragmentMovieBinding
+    private var _binding: FragmentMovieBinding? = null
+    private val binding get() = _binding!!
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var skeleton: Skeleton
 
     override fun onInitialization() {
         super.onInitialization()
-        binding = getViewDataBinding()
+        _binding = getViewDataBinding()
         binding.lifecycleOwner = this
         movieViewModel.navigator = this
         skeleton = binding.rvLoading.applySkeleton(R.layout.item_row_skeleton_list, 8)

@@ -14,21 +14,14 @@
             android:layout_marginTop="@dimen/size_small"
             android:padding="@dimen/size_extra_large"
             android:src="@drawable/ic_splash"
+            android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <data>
-
-        <variable
-            name="data"
-            type="com.haidev.moviecatalogueapp.ui.splash.SplashViewModel" />
-    </data>
 
 </layout>

@@ -237,10 +237,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <data>
-
-        <variable
-            name="data"
-            type="com.haidev.moviecatalogueapp.ui.tvshow.DetailTvShowViewModel" />
-    </data>
 </layout>

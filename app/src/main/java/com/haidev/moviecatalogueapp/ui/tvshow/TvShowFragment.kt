@@ -18,13 +18,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
     TvShowNavigator {
     private val tvShowViewModel: TvShowViewModel by viewModel()
-    private lateinit var binding: FragmentTvShowBinding
+    private var _binding: FragmentTvShowBinding? = null
+    private val binding get() = _binding!!
     private lateinit var tvShowListAdapter: TvShowListAdapter
     private lateinit var skeleton: Skeleton
 
     override fun onInitialization() {
         super.onInitialization()
-        binding = getViewDataBinding()
+        _binding = getViewDataBinding()
         binding.lifecycleOwner = this
         tvShowViewModel.navigator = this
         skeleton = binding.rvLoading.applySkeleton(R.layout.item_row_skeleton_list, 8)

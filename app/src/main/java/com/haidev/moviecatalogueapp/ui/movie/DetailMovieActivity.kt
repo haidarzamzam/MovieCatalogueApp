@@ -19,11 +19,6 @@ import org.koin.android.ext.android.inject
 
 class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovieViewModel>(),
     DetailMovieNavigator {
-
-    companion object {
-        const val EXTRA_MOVIE = "extra_movie"
-    }
-
     private val detailMovieViewModel: DetailMovieViewModel by inject()
 
     private lateinit var detailMovieGenresAdapter: DetailMovieGenresAdapter
@@ -154,5 +149,9 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
     override fun onReadyAction() {
         initListAdapter()
         detailMovieViewModel.getDetailMovieAsync(movie.id.toString())
+    }
+
+    companion object {
+        const val EXTRA_MOVIE = "ExtraMovie"
     }
 }

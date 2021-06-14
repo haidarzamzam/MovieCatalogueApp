@@ -237,10 +237,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <data>
-
-        <variable
-            name="data"
-            type="com.haidev.moviecatalogueapp.ui.movie.DetailMovieViewModel" />
-    </data>
 </layout>

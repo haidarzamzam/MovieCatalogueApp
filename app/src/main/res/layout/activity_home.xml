@@ -36,10 +36,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <data>
-
-        <variable
-            name="data"
-            type="com.haidev.moviecatalogueapp.ui.home.HomeViewModel" />
-    </data>
 </layout>

@@ -19,3 +19,4 @@ fun ImageView.setGlideImage(imageUrl: String?) {
             Glide.with(context).load("https://image.tmdb.org/t/p/w200/$it").into(this)
     }
 }
+

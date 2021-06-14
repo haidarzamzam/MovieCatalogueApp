@@ -19,23 +19,19 @@ import org.koin.android.ext.android.inject
 
 class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvShowViewModel>(),
     DetailTvShowNavigator {
-
-    companion object {
-        const val EXTRA_TV = "extra_tv"
-    }
-
     private val detailTvShowViewModel: DetailTvShowViewModel by inject()
 
     private lateinit var detailTvShowGenresAdapter: DetailTvShowGenresAdapter
     private lateinit var detailTvShowProductionAdapter: DetailTvShowProductionAdapter
-    private lateinit var binding: ActivityDetailTvShowBinding
+    private var _binding: ActivityDetailTvShowBinding? = null
+    private val binding get() = _binding!!
     private lateinit var skeletonGenres: Skeleton
     private lateinit var skeletonProduction: Skeleton
     private lateinit var tvshow: ListTvShow.Response.Result
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = getViewDataBinding()
+        _binding = getViewDataBinding()
         binding.lifecycleOwner = this
         detailTvShowViewModel.navigator = this
         initSkeleton()
@@ -153,5 +149,9 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
     override fun onReadyAction() {
         initListAdapter()
         detailTvShowViewModel.getDetailTvShowAsync(tvshow.id.toString())
+    }
+
+    companion object {
+        const val EXTRA_TV = "ExtraTv"
     }
 }

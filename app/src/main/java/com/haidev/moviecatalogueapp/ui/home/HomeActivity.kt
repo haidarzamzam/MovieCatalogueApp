@@ -10,11 +10,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
     HomeNavigator {
 
     private val homeViewModel: HomeViewModel by inject()
-    private lateinit var binding: ActivityHomeBinding
+    private var _binding: ActivityHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = getViewDataBinding()
+        _binding = getViewDataBinding()
         homeViewModel.navigator = this
         binding.lifecycleOwner = this
         setUpViewPager()
@@ -23,8 +24,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
     override fun setLayout() = R.layout.activity_home
 
     override fun getViewModels() = homeViewModel
-
-    override fun onReadyAction() {}
 
     private fun setUpViewPager() {
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)

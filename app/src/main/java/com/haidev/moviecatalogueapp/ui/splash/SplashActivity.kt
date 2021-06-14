@@ -12,11 +12,12 @@ import org.koin.android.ext.android.inject
 class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(),
     SplashNavigator {
     private val splashViewModel: SplashViewModel by inject()
-    private lateinit var binding: ActivitySplashBinding
+    private var _binding: ActivitySplashBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = getViewDataBinding()
+        _binding = getViewDataBinding()
         binding.lifecycleOwner = this
         splashViewModel.navigator = this
     }
