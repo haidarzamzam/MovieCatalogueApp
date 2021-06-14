@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/movieFragment"
+        android:icon="@drawable/ic_baseline_movie_24"
+        android:title="@string/text_movie" />
+
+    <item
+        android:id="@+id/tvShowFragment"
+        android:icon="@drawable/ic_baseline_airplay_24"
+        android:title="@string/text_tv_show" />
+</menu>

@@ -7,4 +7,5 @@
     <string name="text_overview">Overview</string>
     <string name="text_genres">Genres</string>
     <string name="text_production_companies">Production Companies</string>
+    <string name="text_favorite">Favorite</string>
 </resources>

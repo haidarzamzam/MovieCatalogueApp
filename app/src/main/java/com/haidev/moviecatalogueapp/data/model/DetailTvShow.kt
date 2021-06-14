@@ -73,16 +73,16 @@ object DetailTvShow {
 
         @Parcelize
         data class LastEpisodeToAir(
-            val air_date: String?,
-            val episode_number: Int?,
-            val id: Int?,
-            val name: String?,
-            val overview: String?,
-            val production_code: String?,
-            val season_number: Int?,
-            val still_path: String?,
-            val vote_average: Double?,
-            val vote_count: Int?
+            val air_date: String? = "",
+            val episode_number: Int? = 0,
+            val id: Int? = 0,
+            val name: String? = "",
+            val overview: String? = "",
+            val production_code: String? = "",
+            val season_number: Int? = 0,
+            val still_path: String? = "",
+            val vote_average: Double? = 0.0,
+            val vote_count: Int? = 0
         ) : Parcelable
 
         @Parcelize

@@ -1,6 +1,8 @@
 package com.haidev.moviecatalogueapp.ui.home
 
 import android.os.Bundle
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.haidev.moviecatalogueapp.R
 import com.haidev.moviecatalogueapp.databinding.ActivityHomeBinding
 import com.haidev.moviecatalogueapp.ui.base.BaseActivity
@@ -18,16 +20,21 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
         _binding = getViewDataBinding()
         homeViewModel.navigator = this
         binding.lifecycleOwner = this
-        setUpViewPager()
+        setUpBottomView()
     }
 
     override fun setLayout() = R.layout.activity_home
 
     override fun getViewModels() = homeViewModel
 
-    private fun setUpViewPager() {
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        binding.viewPager.adapter = sectionsPagerAdapter
-        binding.tabs.setupWithViewPager(binding.viewPager)
+    private fun setUpBottomView() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomNavigatinView.setupWithNavController(navController)
+
+        /* val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+         binding.viewPager.adapter = sectionsPagerAdapter
+         binding.tabs.setupWithViewPager(binding.viewPager)*/
     }
 }
