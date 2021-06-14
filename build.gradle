@@ -39,6 +39,7 @@ ext {
     mockitoKotlinVersion = '2.2.0'
     idleResourceVersion = '3.3.0'
     koin_version = '2.2.1'
+    room_version = '2.3.0-alpha03'
 
     version_retrofit = "2.8.1"
     version_moshi = "1.9.2"
