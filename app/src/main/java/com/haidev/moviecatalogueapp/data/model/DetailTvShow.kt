@@ -2,6 +2,7 @@ package com.haidev.moviecatalogueapp.data.model
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 object DetailTvShow {
@@ -9,19 +10,20 @@ object DetailTvShow {
     @Parcelize
     data class Response(
         val backdrop_path: String?,
-        val created_by: List<CratedByItem>?,
+        val created_by: List<CreatedByItem>?,
         val episode_run_time: List<Int>?,
         val first_air_date: String?,
         val genres: List<Genre>?,
         val homepage: String?,
+        @PrimaryKey
         val id: Int?,
         val in_production: Boolean?,
         val languages: List<String>?,
         val last_air_date: String?,
-        val last_episode_to_air: LastEpisodeToAir?,
+        val last_episode_to_air: LastEpisodeToAir? = null,
         val name: String?,
         val networks: List<Network>?,
-        val next_episode_to_air: NextEpisodeToAir?,
+        val next_episode_to_air: NextEpisodeToAir? = null,
         val number_of_episodes: Int?,
         val number_of_seasons: Int?,
         val origin_country: List<String>?,
@@ -41,7 +43,7 @@ object DetailTvShow {
         val vote_count: Int?
     ) : Parcelable {
         @Parcelize
-        data class CratedByItem(
+        data class CreatedByItem(
             val credit_id: String?,
             val gender: Int?,
             val id: Int?,
@@ -57,16 +59,16 @@ object DetailTvShow {
 
         @Parcelize
         data class NextEpisodeToAir(
-            val air_date: String?,
-            val episode_number: Int?,
-            val id: Int?,
-            val name: String?,
-            val overview: String?,
-            val production_code: String?,
-            val season_number: Int?,
-            val still_path: String?,
-            val vote_average: Double?,
-            val vote_count: Int?
+            val air_date: String? = "",
+            val episode_number: Int? = 0,
+            val id: Int? = 0,
+            val name: String? = "",
+            val overview: String? = "",
+            val production_code: String? = "",
+            val season_number: Int? = 0,
+            val still_path: String? = "",
+            val vote_average: Double? = 0.0,
+            val vote_count: Int? = 0,
         ) : Parcelable
 
         @Parcelize
@@ -123,6 +125,4 @@ object DetailTvShow {
             val name: String?
         ) : Parcelable
     }
-
-
 }

@@ -114,7 +114,7 @@ object DataDummy {
 
     fun generateDummyDetailTvShow(): DetailTvShow.Response {
         val createdBy = listOf(
-            DetailTvShow.Response.CratedByItem(
+            DetailTvShow.Response.CreatedByItem(
                 "55fdc50ec3a368132a001852",
                 2,
                 1222585,

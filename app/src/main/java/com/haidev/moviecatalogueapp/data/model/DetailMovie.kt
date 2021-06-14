@@ -2,6 +2,7 @@ package com.haidev.moviecatalogueapp.data.model
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 object DetailMovie {
@@ -10,10 +11,11 @@ object DetailMovie {
     data class Response(
         val adult: Boolean?,
         val backdrop_path: String?,
-        val belongs_to_collection: BelongsToCollection?,
+        val belongs_to_collection: BelongsToCollection? = null,
         val budget: Int?,
         val genres: List<Genre>?,
         val homepage: String?,
+        @PrimaryKey
         val id: Int?,
         val imdb_id: String?,
         val original_language: String?,
@@ -63,10 +65,10 @@ object DetailMovie {
 
         @Parcelize
         data class BelongsToCollection(
-            val id: Int?,
-            val name: String?,
-            val poster_path: String?,
-            val backdrop_path: String?
+            val id: Int? = 0,
+            val name: String? = "",
+            val poster_path: String? = "",
+            val backdrop_path: String? = ""
         ) : Parcelable
     }
 }
