@@ -2,13 +2,14 @@ package com.haidev.moviecatalogueapp.ui.movie
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.paging.DataSource
 import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
+import com.haidev.moviecatalogueapp.ui.utils.PagedListUtil
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
-import com.haidev.moviecatalogueapp.ui.utils.observeTest
 import com.haidev.moviecatalogueapp.utils.DataDummy
-import com.haidev.moviecatalogueapp.utils.ErrorUtils
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert
@@ -41,14 +42,9 @@ class MovieViewModelTest {
     private lateinit var navigator: MovieNavigator
 
     @Mock
-    private lateinit var apiRepo: ApiRepository
+    private lateinit var repo: ApiRepository
 
-    @Mock
-    private lateinit var response: ListMovie.Response
-
-    private val dummyMovies: ListMovie.Response = DataDummy.generateDummyListMovie()
-
-    private val error = Error()
+    private val dummyMovies = DataDummy.generateDummyListMovie()
 
     @ObsoleteCoroutinesApi
     @Before
@@ -56,7 +52,7 @@ class MovieViewModelTest {
         MockitoAnnotations.openMocks(this)
         viewModel =
             MovieViewModel(
-                apiRepo,
+                repo,
                 app
             )
         viewModel.navigator = navigator
@@ -64,42 +60,17 @@ class MovieViewModelTest {
 
 
     @Test
-    fun `given success response when get list movie and not if null`() {
+    fun getAllMovies() {
         testCoroutineRule.runBlockingTest {
-            // GIVEN
-            response = dummyMovies
+            val dataSourceFactory =
+                Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, ListMovie.Response.Result>
+            Mockito.`when`(repo.getAllMovie()).thenReturn(dataSourceFactory)
+            repo.getListMovie()
 
-            Mockito.`when`(apiRepo.getListMovie())
-                .thenReturn(response)
-
-            viewModel.dataListMovie.observeTest {
-                // WHEN
-                viewModel.getListMovieAsync()
-
-                // THEN
-                Mockito.verify(it).onChanged(Resource.loading())
-                Mockito.verify(it).onChanged(Resource.success(response))
-                Assert.assertNotNull(viewModel.dataListMovie.value)
-                Assert.assertEquals(1, viewModel.dataListMovie.value?.data?.results?.size)
-            }
-        }
-    }
-
-    @Test
-    fun `throw error response when get list movie`() {
-        testCoroutineRule.runBlockingTest {
-            // GIVEN
-            Mockito.`when`(apiRepo.getListMovie()).thenThrow(error)
-
-            viewModel.dataListMovie.observeTest {
-                // WHEN
-                viewModel.getListMovieAsync()
-
-                // THEN
-                Mockito.verify(it).onChanged(Resource.loading(null))
-                Mockito.verify(it)
-                    .onChanged(Resource.error(ErrorUtils.getErrorThrowableMsg(error), null, error))
-            }
+            val movieEntities =
+                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyListMovie()))
+            Assert.assertNotNull(movieEntities.data)
+            assertEquals(dummyMovies.size.toLong(), movieEntities.data?.size?.toLong())
         }
     }
 }

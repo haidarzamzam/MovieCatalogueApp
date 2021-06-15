@@ -6,7 +6,7 @@ import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
 
 object DataDummy {
-    fun generateDummyListMovie(): ListMovie.Response? {
+    fun generateDummyListMovie(): List<ListMovie.Response.Result> {
 
         val movies = ArrayList<ListMovie.Response.Result>()
         movies.add(
@@ -28,16 +28,10 @@ object DataDummy {
             )
         )
 
-        return ListMovie.Response(
-            1,
-            movies,
-            500,
-            10000
-        )
-
+        return movies
     }
 
-    fun generateDummyListTvShow(): ListTvShow.Response {
+    fun generateDummyListTvShow(): List<ListTvShow.Response.Result> {
 
         val tvshows = ArrayList<ListTvShow.Response.Result>()
         tvshows.add(
@@ -57,12 +51,8 @@ object DataDummy {
                 9132
             )
         )
-        return ListTvShow.Response(
-            1,
-            tvshows,
-            500,
-            10000
-        )
+
+        return tvshows
     }
 
     fun generateDummyDetailMovie(): DetailMovie.Response {

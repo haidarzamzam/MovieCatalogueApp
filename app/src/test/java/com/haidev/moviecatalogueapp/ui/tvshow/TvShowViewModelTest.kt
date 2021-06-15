@@ -2,13 +2,13 @@ package com.haidev.moviecatalogueapp.ui.tvshow
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.paging.DataSource
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
+import com.haidev.moviecatalogueapp.ui.utils.PagedListUtil
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
-import com.haidev.moviecatalogueapp.ui.utils.observeTest
 import com.haidev.moviecatalogueapp.utils.DataDummy
-import com.haidev.moviecatalogueapp.utils.ErrorUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Before
@@ -40,67 +40,36 @@ class TvShowViewModelTest {
     private lateinit var navigator: TvShowNavigator
 
     @Mock
-    private lateinit var apiRepo: ApiRepository
+    private lateinit var repo: ApiRepository
 
-    @Mock
-    private lateinit var response: ListTvShow.Response
-
-    private val dummyTvSHow: ListTvShow.Response = DataDummy.generateDummyListTvShow()
-
-    private val error = Error()
+    private val dummyTvSHow = DataDummy.generateDummyListTvShow()
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel =
             TvShowViewModel(
-                apiRepo,
+                repo,
                 app
             )
         viewModel.navigator = navigator
     }
 
     @Test
-    fun `given success response when get list movie`() {
+    fun getAllMovies() {
         testCoroutineRule.runBlockingTest {
-            // GIVEN
-            response = dummyTvSHow
+            val dataSourceFactory =
+                Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, ListTvShow.Response.Result>
+            Mockito.`when`(repo.getAllTvShow()).thenReturn(dataSourceFactory)
+            repo.getListTvShow()
 
-            Mockito.`when`(apiRepo.getListTvShow())
-                .thenReturn(response)
-
-            viewModel.dataListTvShow.observeTest {
-                // WHEN
-                viewModel.getListTvShowAsync()
-
-                // THEN
-                Assert.assertNotNull(viewModel.dataListTvShow.value)
-                Assert.assertEquals(1, viewModel.dataListTvShow.value?.data?.results?.size)
-                Mockito.verify(it).onChanged(Resource.loading())
-                Mockito.verify(it).onChanged(Resource.success(response))
-            }
-        }
-    }
-
-    @Test
-    fun `throw error response when get list movie`() {
-        testCoroutineRule.runBlockingTest {
-            // GIVEN
-            Mockito.`when`(apiRepo.getListTvShow()).thenThrow(error)
-
-            viewModel.dataListTvShow.observeTest {
-                // WHEN
-                viewModel.getListTvShowAsync()
-
-                // THEN
-                Mockito.verify(it).onChanged(Resource.loading(null))
-                Mockito.verify(it)
-                    .onChanged(
-                        Resource.error(
-                            ErrorUtils.getErrorThrowableMsg(error), null, error
-                        )
-                    )
-            }
+            val movieEntities =
+                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyListTvShow()))
+            Assert.assertNotNull(movieEntities.data)
+            Assert.assertEquals(
+                dummyTvSHow.size.toLong(),
+                movieEntities.data?.size?.toLong()
+            )
         }
     }
 }

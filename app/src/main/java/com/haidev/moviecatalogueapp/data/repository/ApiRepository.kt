@@ -22,11 +22,13 @@ class ApiRepository(
     private val tvShowDao: TvShowDao,
     private val coroutineContext: ContextProviders
 ) {
+    fun getAllMovie() = movieDao.readAllMovie()
     fun getAllMovieFavorite() = movieDao.readAllMovieFavorite()
     fun getMovieFavorite(idMovie: Int) = movieDao.readMovieFavorite(idMovie)
     fun addMovieFavorite(movie: DetailMovie.Response) = movieDao.addMovieFavorite(movie)
     fun deleteMovieFavorite(movie: DetailMovie.Response) = movieDao.deleteMovieFavorite(movie)
 
+    fun getAllTvShow() = tvShowDao.readAllTvShow()
     fun getAllTvShowFavorite() = tvShowDao.readAllTvShowFavorite()
     fun getTvShowFavorite(idTvShow: Int) = tvShowDao.readTvShowFavorite(idTvShow)
     fun addTvShowFavorite(tvShow: DetailTvShow.Response) = tvShowDao.addTvShowFavorite(tvShow)
