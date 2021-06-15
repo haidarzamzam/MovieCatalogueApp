@@ -1,20 +1,17 @@
 package com.haidev.moviecatalogueapp.ui.movie
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
 import com.haidev.moviecatalogueapp.ui.base.BaseViewModel
-import com.haidev.moviecatalogueapp.utils.AppExecutors
 import com.haidev.moviecatalogueapp.utils.ErrorUtils
 import kotlinx.coroutines.launch
 
 class DetailMovieViewModel(
     private val apiRepository: ApiRepository,
-    private val appExecutors: AppExecutors,
     application: Application,
 ) :
     BaseViewModel<DetailMovieNavigator>(application) {
@@ -22,9 +19,9 @@ class DetailMovieViewModel(
     val dataDetailMovie: MutableLiveData<Resource<DetailMovie.Response>>
         get() = _detailMovie
 
-    fun getFavoriteMovie(idMovie: Int): LiveData<DetailMovie.Response?> {
+    /*fun getFavoriteMovie(idMovie: Int): LiveData<DetailMovie.Response?> {
         return apiRepository.readMovie(idMovie)
-    }
+    }*/
 
     fun getDetailMovieAsync(idMovie: String) {
         viewModelScope.launch {
@@ -38,11 +35,11 @@ class DetailMovieViewModel(
         }
     }
 
-    fun setFavoriteMovie(movie: DetailMovie.Response) {
+    /*fun setFavoriteMovie(movie: DetailMovie.Response) {
         appExecutors.diskIO().execute { apiRepository.insertMovie(movie) }
     }
 
     fun deleteFavoriteMovie(movie: DetailMovie.Response) {
         appExecutors.diskIO().execute { apiRepository.deleteMovie(movie) }
-    }
+    }*/
 }

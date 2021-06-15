@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 object DetailMovie {
-    @Entity(tableName = "movie_table")
+    @Entity(tableName = "movie_favorite_table")
     @Parcelize
     data class Response(
         val adult: Boolean?,

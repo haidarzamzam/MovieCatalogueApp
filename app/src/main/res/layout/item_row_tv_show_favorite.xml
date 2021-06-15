@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/size_medium"
+        android:layout_marginBottom="@dimen/size_medium">
+
+        <View
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_height_container"
+            android:background="@drawable/bg_rounded_container"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:layout_width="@dimen/size_wrap"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_medium"
+            android:layout_marginTop="@dimen/size_medium"
+            android:fontFamily="@font/bebas_neue"
+            android:text="@{item.name}"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/container"
+            app:layout_constraintStart_toEndOf="@id/card_poster"
+            app:layout_constraintTop_toTopOf="@id/container" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_overview"
+            android:layout_width="@dimen/size_wrap"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_medium"
+            android:layout_marginTop="@dimen/size_extra_small"
+            android:ellipsize="end"
+            android:fontFamily="@font/bebas_neue"
+            android:lines="2"
+            android:maxLines="2"
+            android:text="@{item.overview}"
+            android:textSize="@dimen/size_font_12sp"
+            app:layout_constraintEnd_toEndOf="@id/container"
+            app:layout_constraintStart_toEndOf="@id/card_poster"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rating"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_medium"
+            android:layout_marginTop="@dimen/size_small"
+            android:progressTint="@color/colorPrimary"
+            app:layout_constraintStart_toEndOf="@id/card_poster"
+            app:layout_constraintTop_toBottomOf="@id/tv_overview" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_extra_small"
+            android:fontFamily="@font/bebas_neue"
+            android:text="@{`(`+ Double.toString(item.vote_average) +`)`}"
+            app:layout_constraintBottom_toBottomOf="@id/rating"
+            app:layout_constraintStart_toEndOf="@id/rating"
+            app:layout_constraintTop_toTopOf="@id/rating" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_poster"
+            android:layout_width="@dimen/size_width_poster"
+            android:layout_height="@dimen/size_height_poster"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/size_medium"
+            android:layout_marginBottom="@dimen/size_medium"
+            android:elevation="@dimen/size_medium"
+            android:innerRadius="@dimen/size_wrap"
+            android:shape="ring"
+            android:thicknessRatio="1.9"
+            app:cardCornerRadius="@dimen/size_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                srcGlide="@{item.poster_path}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.haidev.moviecatalogueapp.data.model.DetailTvShow.Response" />
+    </data>
+</layout>

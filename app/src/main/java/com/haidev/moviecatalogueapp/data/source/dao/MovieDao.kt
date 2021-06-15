@@ -1,20 +1,20 @@
 package com.haidev.moviecatalogueapp.data.source.dao
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
-import com.haidev.moviecatalogueapp.data.model.DetailMovie
+import androidx.paging.DataSource
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.haidev.moviecatalogueapp.data.model.ListMovie
 
 @Dao
 interface MovieDao {
     @Query("SELECT * FROM movie_table")
-    fun readAllMovie(): LiveData<List<DetailMovie.Response?>>
-
-    @Query("SELECT * FROM movie_table WHERE id = :idMovie")
-    fun readMovie(idMovie: Int): LiveData<DetailMovie.Response?>
+    fun readAllMovie(): DataSource.Factory<Int, ListMovie.Response.Result>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(module: DetailMovie.Response)
+    fun addAllMovie(movie: List<ListMovie.Response.Result>?)
 
-    @Delete
-    fun deleteMovie(module: DetailMovie.Response)
+    @Query("DELETE FROM movie_table")
+    fun clearMovie()
 }

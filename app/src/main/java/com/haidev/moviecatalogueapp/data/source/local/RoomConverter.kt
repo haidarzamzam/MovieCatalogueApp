@@ -4,9 +4,20 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.DetailTvShow
+import com.haidev.moviecatalogueapp.data.model.ListMovie
 
 class RoomConverter {
     //Movie Table
+    @TypeConverter
+    fun listMovieToJson(value: List<ListMovie.Response.Result>): String =
+        Gson().toJson(value)
+
+    @TypeConverter
+    fun jsonToLisMovie(value: String) =
+        Gson().fromJson(value, Array<ListMovie.Response.Result>::class.java)
+            .toList()
+
+    //Detail Movie Table
     @TypeConverter
     fun movieGenreToJson(value: List<DetailMovie.Response.Genre>): String =
         Gson().toJson(value)
@@ -51,7 +62,7 @@ class RoomConverter {
     fun jsonToMovieBelongsToCollection(value: String): DetailMovie.Response.BelongsToCollection? =
         Gson().fromJson(value, DetailMovie.Response.BelongsToCollection::class.java)
 
-    //Tv Show Table
+    //Detail Tv Show Table
     @TypeConverter
     fun tvShowCreatedByItemToJson(value: List<DetailTvShow.Response.CreatedByItem>): String =
         Gson().toJson(value)

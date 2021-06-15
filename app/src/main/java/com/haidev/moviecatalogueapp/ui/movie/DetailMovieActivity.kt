@@ -41,7 +41,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
     }
 
     private fun initCheckFavorite() {
-        observeActivity(detailMovieViewModel.getFavoriteMovie(movie.id)) {
+       /* observeActivity(detailMovieViewModel.getFavoriteMovie(movie.id)) {
             isFavorite = if (it?.id == movie.id) {
                 binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_select_24)
                 true
@@ -49,7 +49,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
                 binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_unselect_24)
                 false
             }
-        }
+        }*/
     }
 
     private fun initSkeleton() {
@@ -89,13 +89,13 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
         }
 
         binding.btnFavorite.setOnClickListener {
-            if (isFavorite) {
+            /*if (isFavorite) {
                 detailMovieViewModel.deleteFavoriteMovie(detailMovie)
             } else {
                 detailMovieViewModel.setFavoriteMovie(detailMovie)
             }
 
-            initCheckFavorite()
+            initCheckFavorite()*/
         }
     }
 

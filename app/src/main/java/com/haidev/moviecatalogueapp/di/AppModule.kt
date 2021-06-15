@@ -23,7 +23,7 @@ val viewModelModule = module {
     viewModel { MainViewModel(androidApplication()) }
     viewModel { MovieViewModel(get(), androidApplication()) }
     viewModel { TvShowViewModel(get(), androidApplication()) }
-    viewModel { DetailMovieViewModel(get(), get(), androidApplication()) }
+    viewModel { DetailMovieViewModel(get(), androidApplication()) }
     viewModel { DetailTvShowViewModel(get(), androidApplication()) }
     viewModel { FavoriteViewModel(androidApplication()) }
     viewModel { MovieFavoriteViewModel(get(), androidApplication()) }
@@ -32,6 +32,6 @@ val viewModelModule = module {
 
 val apiRepositoryModule = module {
     single { ContextProviders.getInstance() }
-    single { ApiRepository(get(), get()) }
+    single { ApiRepository(get(), get(), get()) }
     single { AppExecutors() }
 }

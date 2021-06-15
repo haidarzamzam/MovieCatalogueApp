@@ -1,19 +1,30 @@
 package com.haidev.moviecatalogueapp.ui.favorite.tvshow
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.faltenreich.skeletonlayout.Skeleton
 import com.haidev.moviecatalogueapp.R
+import com.haidev.moviecatalogueapp.data.model.DetailTvShow
+import com.haidev.moviecatalogueapp.databinding.FragmentTvShowFavoriteBinding
+import com.haidev.moviecatalogueapp.ui.base.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TvShowFavoriteFragment : Fragment() {
+class TvShowFavoriteFragment :
+    BaseFragment<FragmentTvShowFavoriteBinding, TvShowFavoriteViewModel>(),
+    TvShowFavoriteNavigator {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_tv_show_favorite, container, false)
+    private val tvShowFavoriteViewModel: TvShowFavoriteViewModel by viewModel()
+    private var _binding: FragmentTvShowFavoriteBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var tvShowFavoriteListAdapter: TvShowFavoriteListAdapter
+    private lateinit var skeleton: Skeleton
+
+    override fun setLayout() = R.layout.fragment_tv_show_favorite
+
+    override fun getViewModels() = tvShowFavoriteViewModel
+
+    override fun onReadyAction() {
+    }
+
+    override fun navigateToDetailTvShow(data: DetailTvShow.Response) {
     }
 
 

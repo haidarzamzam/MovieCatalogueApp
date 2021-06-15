@@ -3,19 +3,17 @@ package com.haidev.moviecatalogueapp.data.source.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.haidev.moviecatalogueapp.data.model.Resource
-import com.haidev.moviecatalogueapp.utils.AppExecutors
+import com.haidev.moviecatalogueapp.utils.ContextProviders
 import com.haidev.moviecatalogueapp.utils.enum.Status
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecutors: AppExecutors) {
-
+abstract class NetworkBoundResource<ResultType, RequestType>(private val contextProviders: ContextProviders) {
     private val result = MediatorLiveData<Resource<ResultType>>()
 
     init {
         result.value = Resource.loading(null)
-
-        @Suppress("LeakingThis")
         val dbSource = loadFromDB()
-
         result.addSource(dbSource) { data ->
             result.removeSource(dbSource)
             if (shouldFetch(data)) {
@@ -28,20 +26,8 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecut
         }
     }
 
-    protected open fun onFetchFailed() {}
-
-    protected abstract fun loadFromDB(): LiveData<ResultType>
-
-    protected abstract fun shouldFetch(data: ResultType?): Boolean
-
-    protected abstract fun createCall(): LiveData<ApiResponse<RequestType>>
-
-    protected abstract fun saveCallResult(data: RequestType)
-
     private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
-
         val apiResponse = createCall()
-
         result.addSource(dbSource) { newData ->
             result.value = Resource.loading(newData)
         }
@@ -49,18 +35,21 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecut
             result.removeSource(apiResponse)
             result.removeSource(dbSource)
             when (response.status) {
-                Status.SUCCESS ->
-                    mExecutors.diskIO().execute {
-                        saveCallResult(response.body)
-                        mExecutors.mainThread().execute {
+                Status.SUCCESS -> {
+                    GlobalScope.launch(contextProviders.IO) {
+                        response.body?.let { saveCallResult(it) }
+                        GlobalScope.launch(contextProviders.Main) {
                             result.addSource(loadFromDB()) { newData ->
                                 result.value = Resource.success(newData)
                             }
                         }
                     }
-                Status.EMPTY -> mExecutors.mainThread().execute {
-                    result.addSource(loadFromDB()) { newData ->
-                        result.value = Resource.success(newData)
+                }
+                Status.EMPTY -> {
+                    GlobalScope.launch(contextProviders.Main) {
+                        result.addSource(loadFromDB()) { newData ->
+                            result.value = Resource.success(newData)
+                        }
                     }
                 }
                 Status.ERROR -> {
@@ -75,5 +64,10 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecut
         }
     }
 
-    fun asLiveData(): LiveData<Resource<ResultType>> = result
+    fun asLiveData() = result as LiveData<Resource<ResultType>>
+    protected open fun onFetchFailed() {}
+    protected abstract fun loadFromDB(): LiveData<ResultType>
+    protected abstract fun shouldFetch(data: ResultType?): Boolean
+    protected abstract fun createCall(): LiveData<ApiResponse<RequestType>>
+    protected abstract fun saveCallResult(data: RequestType)
 }
