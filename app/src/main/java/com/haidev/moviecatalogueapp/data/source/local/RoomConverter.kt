@@ -4,30 +4,8 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.DetailTvShow
-import com.haidev.moviecatalogueapp.data.model.ListMovie
-import com.haidev.moviecatalogueapp.data.model.ListTvShow
 
 class RoomConverter {
-    //Movie Table
-    @TypeConverter
-    fun listMovieToJson(value: List<ListMovie.Response.Result>): String =
-        Gson().toJson(value)
-
-    @TypeConverter
-    fun jsonToListMovie(value: String) =
-        Gson().fromJson(value, Array<ListMovie.Response.Result>::class.java)
-            .toList()
-
-    //Tv Show Table
-    @TypeConverter
-    fun listTvShowToJson(value: List<ListTvShow.Response.Result>): String =
-        Gson().toJson(value)
-
-    @TypeConverter
-    fun jsonToListTvShow(value: String) =
-        Gson().fromJson(value, Array<ListTvShow.Response.Result>::class.java)
-            .toList()
-
     //Detail Movie Table
     @TypeConverter
     fun movieGenreToJson(value: List<DetailMovie.Response.Genre>): String =
