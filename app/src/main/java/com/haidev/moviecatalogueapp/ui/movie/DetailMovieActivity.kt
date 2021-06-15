@@ -27,6 +27,8 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
     private lateinit var skeletonGenres: Skeleton
     private lateinit var skeletonProduction: Skeleton
     private lateinit var movie: ListMovie.Response.Result
+    private lateinit var detailMovie: DetailMovie.Response
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,19 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
         detailMovieViewModel.navigator = this
         initSkeleton()
         initView()
+        initCheckFavorite()
+    }
+
+    private fun initCheckFavorite() {
+        observeActivity(detailMovieViewModel.getFavoriteMovie(movie.id)) {
+            isFavorite = if (it?.id == movie.id) {
+                binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_select_24)
+                true
+            } else {
+                binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_unselect_24)
+                false
+            }
+        }
     }
 
     private fun initSkeleton() {
@@ -72,6 +87,11 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
         }
+
+        binding.btnFavorite.setOnClickListener {
+            detailMovieViewModel.setFavoriteMovie(detailMovie)
+            initCheckFavorite()
+        }
     }
 
 
@@ -101,7 +121,8 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
             }
             Status.SUCCESS -> {
                 showLoading(false)
-                if (resource.data?.genres?.isNotEmpty() == true) {
+                detailMovie = resource.data!!
+                if (resource.data.genres?.isNotEmpty() == true) {
                     resource.data.genres.let {
                         detailMovieGenresAdapter.setData(it)
                     }
@@ -111,7 +132,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
                     binding.tvTitleGenres.gone()
                 }
 
-                if (resource.data?.production_companies?.isNotEmpty() == true) {
+                if (resource.data.production_companies?.isNotEmpty() == true) {
                     resource.data.production_companies.let {
                         detailMovieProductionAdapter.setData(it)
                     }
