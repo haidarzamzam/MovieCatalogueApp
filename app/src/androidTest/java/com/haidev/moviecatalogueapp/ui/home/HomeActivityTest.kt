@@ -30,4 +30,12 @@ class HomeActivityTest {
         Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withText(R.string.text_movie)).perform(ViewActions.click())
     }
+
+    @Test
+    fun clickFavorite() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab_favorite)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(R.string.text_movie)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.closeFavorite)).perform(ViewActions.click())
+    }
 }

@@ -71,4 +71,16 @@ class MovieFragmentTest {
             )
         Espresso.onView(ViewMatchers.withId(R.id.btn_share)).perform(ViewActions.click())
     }
+
+    @Test
+    fun clickFavoriteDetailMovie() {
+        Espresso.onView(ViewMatchers.withId(R.id.rv_movie))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    ViewActions.click()
+                )
+            )
+        Espresso.onView(ViewMatchers.withId(R.id.btn_favorite)).perform(ViewActions.click())
+    }
 }
