@@ -15,13 +15,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
 
     private val homeViewModel: HomeViewModel by inject()
     private var _binding: ActivityHomeBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = getViewDataBinding()
         homeViewModel.navigator = this
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = this
         setUpBottomView()
         setUpFAB()
     }
@@ -31,7 +31,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
     override fun getViewModels() = homeViewModel
 
     private fun setUpFAB() {
-        binding.fabFavorite.setOnClickListener {
+        binding?.fabFavorite?.setOnClickListener {
             val intent = Intent(this, FavoriteActivity::class.java)
             startActivity(intent)
         }
@@ -41,6 +41,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        binding.bottomNavigatinView.setupWithNavController(navController)
+        binding?.bottomNavigatinView?.setupWithNavController(navController)
     }
 }

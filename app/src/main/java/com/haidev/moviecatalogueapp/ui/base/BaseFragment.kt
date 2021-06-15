@@ -18,7 +18,7 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>> :
 
     private lateinit var job: Job
     private var _binding: T? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var rootView: View
     private val baseViewModel by lazy { getViewModels() }
 
@@ -53,14 +53,14 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<out Any>> :
         savedInstanceState: Bundle?
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, setLayout(), container, false)
-        rootView = binding.root
+        rootView = binding?.root!!
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onInitialization()
-        binding.executePendingBindings()
+        binding?.executePendingBindings()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

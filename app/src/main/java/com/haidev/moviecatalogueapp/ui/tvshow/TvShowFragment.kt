@@ -16,16 +16,16 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
     TvShowNavigator {
     private val tvShowViewModel: TvShowViewModel by viewModel()
     private var _binding: FragmentTvShowBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var tvShowListAdapter: TvShowListAdapter
-    private lateinit var skeleton: Skeleton
+    private var skeleton: Skeleton? = null
 
     override fun onInitialization() {
         super.onInitialization()
         _binding = getViewDataBinding()
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = this
         tvShowViewModel.navigator = this
-        skeleton = binding.rvLoading.applySkeleton(R.layout.item_row_skeleton_list, 8)
+        skeleton = binding?.rvLoading?.applySkeleton(R.layout.item_row_skeleton_list, 8)
     }
 
     override fun setLayout() = R.layout.fragment_tv_show
@@ -37,7 +37,7 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
     }
 
     private fun initListMovieAdapter() {
-        binding.rvTvShow.apply {
+        binding?.rvTvShow?.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             tvShowListAdapter = TvShowListAdapter {
@@ -51,20 +51,20 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
         observeFragment(tvShowViewModel.getAllListTvShow()) {
             when (it.status) {
                 Status.LOADING -> {
-                    if (it.data.isNullOrEmpty()) skeleton.showSkeleton()
+                    if (it.data.isNullOrEmpty()) skeleton?.showSkeleton()
                     else {
                         tvShowListAdapter.submitList(it.data)
-                        skeleton.showOriginal()
+                        skeleton?.showOriginal()
                     }
                 }
                 Status.SUCCESS -> {
                     tvShowListAdapter.submitList(it.data)
-                    skeleton.showOriginal()
+                    skeleton?.showOriginal()
                 }
                 Status.ERROR -> {
-                    skeleton.showOriginal()
+                    skeleton?.showOriginal()
                 }
-                else -> skeleton.showOriginal()
+                else -> skeleton?.showOriginal()
             }
         }
     }

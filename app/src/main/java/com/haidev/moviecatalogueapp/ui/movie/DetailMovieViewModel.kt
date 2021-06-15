@@ -39,13 +39,13 @@ class DetailMovieViewModel(
         return apiRepository.getMovieFavorite(idMovie)
     }
 
-    fun addFavoriteMovie(movie: DetailMovie.Response) {
+    fun addFavoriteMovie(movie: DetailMovie.Response?) {
         launchOn(coroutineContext.IO) {
             apiRepository.addMovieFavorite(movie)
         }
     }
 
-    fun deleteFavoriteMovie(movie: DetailMovie.Response) {
+    fun deleteFavoriteMovie(movie: DetailMovie.Response?) {
         launchOn(coroutineContext.IO) {
             apiRepository.deleteMovieFavorite(movie)
         }

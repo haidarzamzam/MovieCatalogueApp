@@ -21,16 +21,16 @@ class TvShowFavoriteFragment :
 
     private val tvShowFavoriteViewModel: TvShowFavoriteViewModel by viewModel()
     private var _binding: FragmentTvShowFavoriteBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var tvShowFavoriteListAdapter: TvShowFavoriteListAdapter
-    private lateinit var skeleton: Skeleton
+    private var skeleton: Skeleton? = null
 
     override fun onInitialization() {
         super.onInitialization()
         _binding = getViewDataBinding()
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = this
         tvShowFavoriteViewModel.navigator = this
-        skeleton = binding.rvLoading.applySkeleton(R.layout.item_row_skeleton_list, 8)
+        skeleton = binding?.rvLoading?.applySkeleton(R.layout.item_row_skeleton_list, 8)
     }
 
     override fun setLayout() = R.layout.fragment_tv_show_favorite
@@ -46,18 +46,18 @@ class TvShowFavoriteFragment :
         observeFragment(tvShowFavoriteViewModel.getAllFavoriteTvSHow()) {
             it.let {
                 if (it.isEmpty()) {
-                    binding.tvNoData.visible()
+                    binding?.tvNoData?.visible()
                 } else {
-                    binding.tvNoData.gone()
+                    binding?.tvNoData?.gone()
                 }
                 tvShowFavoriteListAdapter.setData(it as List<DetailTvShow.Response>)
             }
-            binding.executePendingBindings()
+            binding?.executePendingBindings()
         }
     }
 
     private fun initListTvShowAdapter() {
-        binding.rvTvShow.apply {
+        binding?.rvTvShow?.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             tvShowFavoriteListAdapter = TvShowFavoriteListAdapter(this@TvShowFavoriteFragment)

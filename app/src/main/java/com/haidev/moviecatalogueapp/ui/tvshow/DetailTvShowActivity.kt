@@ -2,6 +2,7 @@ package com.haidev.moviecatalogueapp.ui.tvshow
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
@@ -24,9 +25,9 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
     private lateinit var detailTvShowGenresAdapter: DetailTvShowGenresAdapter
     private lateinit var detailTvShowProductionAdapter: DetailTvShowProductionAdapter
     private var _binding: ActivityDetailTvShowBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var skeletonGenres: Skeleton
-    private lateinit var skeletonProduction: Skeleton
+    private val binding get() = _binding
+    private var skeletonGenres: Skeleton? = null
+    private var skeletonProduction: Skeleton? = null
     private lateinit var tvshow: ListTvShow.Response.Result
     private lateinit var detailTvshow: DetailTvShow.Response
     private var isFavorite: Boolean = false
@@ -34,7 +35,7 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = getViewDataBinding()
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = this
         detailTvShowViewModel.navigator = this
         initSkeleton()
         initView()
@@ -43,10 +44,10 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
     private fun initCheckFavorite() {
         observeActivity(detailTvShowViewModel.getFavoriteTvSHow(tvshow.id)) {
             isFavorite = if (it?.id == tvshow.id) {
-                binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_select_24)
+                binding?.btnFavorite?.setImageResource(R.drawable.ic_baseline_favorite_select_24)
                 true
             } else {
-                binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_unselect_24)
+                binding?.btnFavorite?.setImageResource(R.drawable.ic_baseline_favorite_unselect_24)
                 false
             }
         }
@@ -54,8 +55,8 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
 
     private fun initSkeleton() {
         skeletonGenres =
-            binding.rvLoadingGenres.applySkeleton(R.layout.item_row_skeleton_genres, 4)
-        skeletonProduction = binding.rvLoadingProduction.applySkeleton(
+            binding?.rvLoadingGenres?.applySkeleton(R.layout.item_row_skeleton_genres, 4)
+        skeletonProduction = binding?.rvLoadingProduction?.applySkeleton(
             R.layout.item_row_skeleton_production,
             4
         )
@@ -65,20 +66,24 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
         tvshow =
             intent.getParcelableExtra<ListTvShow.Response.Result>(EXTRA_TV) as ListTvShow.Response.Result
         initCheckFavorite()
-        Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.backdrop_path}")
-            .into(binding.ivBackdrop)
-        Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.poster_path}")
-            .into(binding.ivPoster)
-        binding.tvTitle.text = tvshow.name
-        binding.rating.rating = (tvshow.vote_average?.div(2)?.toFloat() ?: 0.0) as Float
-        binding.tvRating.text = "(${tvshow.vote_average})"
-        binding.tvOverview.text = tvshow.overview
-        binding.tvReleaseDate.text = tvshow.first_air_date
-        binding.btnBack.setOnClickListener {
+        binding?.ivBackdrop?.let {
+            Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.backdrop_path}")
+                .into(it)
+        }
+        binding?.ivPoster?.let {
+            Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.poster_path}")
+                .into(it)
+        }
+        binding?.tvTitle?.text = tvshow.name
+        binding?.rating?.rating = (tvshow.vote_average?.div(2)?.toFloat() ?: 0.0) as Float
+        binding?.tvRating?.text = "(${tvshow.vote_average})"
+        binding?.tvOverview?.text = tvshow.overview
+        binding?.tvReleaseDate?.text = tvshow.first_air_date
+        binding?.btnBack?.setOnClickListener {
             finish()
         }
 
-        binding.btnShare.setOnClickListener {
+        binding?.btnShare?.setOnClickListener {
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(
@@ -89,11 +94,15 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
             startActivity(sendIntent)
         }
 
-        binding.btnFavorite.setOnClickListener {
-            if (isFavorite) {
-                detailTvShowViewModel.deleteFavoriteTvSHow(detailTvshow)
+        binding?.btnFavorite?.setOnClickListener {
+            if (this::detailTvshow.isInitialized) {
+                if (isFavorite) {
+                    detailTvShowViewModel.deleteFavoriteTvSHow(detailTvshow)
+                } else {
+                    detailTvShowViewModel.addFavoriteTvSHow(detailTvshow)
+                }
             } else {
-                detailTvShowViewModel.addFavoriteTvSHow(detailTvshow)
+                Toast.makeText(this, "Wait until data loaded!", Toast.LENGTH_SHORT).show()
             }
 
             initCheckFavorite()
@@ -101,12 +110,12 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
     }
 
     private fun initListAdapter() {
-        binding.rvGenres.apply {
+        binding?.rvGenres?.apply {
             setHasFixedSize(true)
             detailTvShowGenresAdapter = DetailTvShowGenresAdapter()
             adapter = detailTvShowGenresAdapter
         }
-        binding.rvProduction.apply {
+        binding?.rvProduction?.apply {
             setHasFixedSize(true)
             detailTvShowProductionAdapter = DetailTvShowProductionAdapter()
             adapter = detailTvShowProductionAdapter
@@ -132,9 +141,9 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
                         detailTvShowGenresAdapter.setData(it)
                     }
                 } else {
-                    binding.rvLoadingGenres.gone()
-                    binding.rvGenres.gone()
-                    binding.tvTitleGenres.gone()
+                    binding?.rvLoadingGenres?.gone()
+                    binding?.rvGenres?.gone()
+                    binding?.tvTitleGenres?.gone()
                 }
 
                 if (resource.data.production_companies?.isNotEmpty() == true) {
@@ -142,12 +151,12 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
                         detailTvShowProductionAdapter.setData(it)
                     }
                 } else {
-                    binding.rvLoadingProduction.gone()
-                    binding.rvProduction.gone()
-                    binding.tvTitleProduction.gone()
+                    binding?.rvLoadingProduction?.gone()
+                    binding?.rvProduction?.gone()
+                    binding?.tvTitleProduction?.gone()
                 }
 
-                binding.executePendingBindings()
+                binding?.executePendingBindings()
             }
             else -> {
             }
@@ -155,15 +164,15 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
     }
 
     private fun showLoading(isLoading: Boolean) {
-        skeletonGenres.showSkeleton()
-        skeletonProduction.showSkeleton()
+        skeletonGenres?.showSkeleton()
+        skeletonProduction?.showSkeleton()
         with(binding) {
             if (isLoading) {
-                rvLoadingGenres.visible()
-                rvLoadingProduction.visible()
+                this?.rvLoadingGenres?.visible()
+                this?.rvLoadingProduction?.visible()
             } else {
-                rvLoadingGenres.gone()
-                rvLoadingProduction.gone()
+                this?.rvLoadingGenres?.gone()
+                this?.rvLoadingProduction?.gone()
             }
         }
     }

@@ -13,12 +13,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(),
     SplashNavigator {
     private val splashViewModel: SplashViewModel by inject()
     private var _binding: ActivitySplashBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = getViewDataBinding()
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = this
         splashViewModel.navigator = this
     }
 

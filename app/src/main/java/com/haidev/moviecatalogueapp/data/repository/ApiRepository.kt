@@ -25,8 +25,8 @@ class ApiRepository(
     fun getAllMovie() = movieDao.readAllMovie()
     fun getAllMovieFavorite() = movieDao.readAllMovieFavorite()
     fun getMovieFavorite(idMovie: Int) = movieDao.readMovieFavorite(idMovie)
-    fun addMovieFavorite(movie: DetailMovie.Response) = movieDao.addMovieFavorite(movie)
-    fun deleteMovieFavorite(movie: DetailMovie.Response) = movieDao.deleteMovieFavorite(movie)
+    fun addMovieFavorite(movie: DetailMovie.Response?) = movieDao.addMovieFavorite(movie)
+    fun deleteMovieFavorite(movie: DetailMovie.Response?) = movieDao.deleteMovieFavorite(movie)
 
     fun getAllTvShow() = tvShowDao.readAllTvShow()
     fun getAllTvShowFavorite() = tvShowDao.readAllTvShowFavorite()

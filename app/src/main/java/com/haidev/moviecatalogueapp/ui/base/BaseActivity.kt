@@ -16,7 +16,7 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<out Any>> :
 
     private lateinit var job: Job
     private var _binding: T? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var rootView: View
     private val baseViewModel by lazy { getViewModels() }
 
@@ -42,8 +42,8 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<out Any>> :
         super.onCreate(savedInstanceState)
         job = Job()
         _binding = DataBindingUtil.setContentView(this, setLayout())
-        rootView = binding.root
-        binding.executePendingBindings()
+        rootView = binding?.root!!
+        binding?.executePendingBindings()
 
     }
 

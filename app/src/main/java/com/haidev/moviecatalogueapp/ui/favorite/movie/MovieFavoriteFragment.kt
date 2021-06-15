@@ -20,16 +20,16 @@ class MovieFavoriteFragment : BaseFragment<FragmentMovieFavoriteBinding, MovieFa
 
     private val movieFavoriteViewModel: MovieFavoriteViewModel by viewModel()
     private var _binding: FragmentMovieFavoriteBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var movieFavoriteListAdapter: MovieFavoriteListAdapter
-    private lateinit var skeleton: Skeleton
+    private var skeleton: Skeleton? = null
 
     override fun onInitialization() {
         super.onInitialization()
         _binding = getViewDataBinding()
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = this
         movieFavoriteViewModel.navigator = this
-        skeleton = binding.rvLoading.applySkeleton(R.layout.item_row_skeleton_list, 8)
+        skeleton = binding?.rvLoading?.applySkeleton(R.layout.item_row_skeleton_list, 8)
     }
 
     override fun setLayout() = R.layout.fragment_movie_favorite
@@ -45,18 +45,18 @@ class MovieFavoriteFragment : BaseFragment<FragmentMovieFavoriteBinding, MovieFa
         observeFragment(movieFavoriteViewModel.getAllFavoriteMovie()) {
             it.let {
                 if (it.isEmpty()) {
-                    binding.tvNoData.visible()
+                    binding?.tvNoData?.visible()
                 } else {
-                    binding.tvNoData.gone()
+                    binding?.tvNoData?.gone()
                 }
                 movieFavoriteListAdapter.setData(it as List<DetailMovie.Response>)
             }
-            binding.executePendingBindings()
+            binding?.executePendingBindings()
         }
     }
 
     private fun initListMovieAdapter() {
-        binding.rvMovie.apply {
+        binding?.rvMovie?.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             movieFavoriteListAdapter = MovieFavoriteListAdapter(this@MovieFavoriteFragment)
