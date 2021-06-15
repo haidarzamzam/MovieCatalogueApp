@@ -22,6 +22,11 @@ class ApiRepository(
     private val tvShowDao: TvShowDao,
     private val coroutineContext: ContextProviders
 ) {
+    fun getAllMovieFavorite() = movieDao.readAllMovieFavorite()
+    fun getMovieFavorite(idMovie: Int) = movieDao.readMovieFavorite(idMovie)
+    fun addMovieFavorite(movie: DetailMovie.Response) = movieDao.addMovieFavorite(movie)
+    fun deleteMovieFavorite(movide: DetailMovie.Response) = movieDao.deleteMovieFavorite(movide)
+
     fun getListMovie(): LiveData<Resource<PagedList<ListMovie.Response.Result>>> {
         return object :
             NetworkBoundResource<PagedList<ListMovie.Response.Result>, List<ListMovie.Response.Result>>(

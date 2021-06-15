@@ -11,7 +11,6 @@ import com.haidev.moviecatalogueapp.ui.movie.MovieViewModel
 import com.haidev.moviecatalogueapp.ui.splash.SplashViewModel
 import com.haidev.moviecatalogueapp.ui.tvshow.DetailTvShowViewModel
 import com.haidev.moviecatalogueapp.ui.tvshow.TvShowViewModel
-import com.haidev.moviecatalogueapp.utils.AppExecutors
 import com.haidev.moviecatalogueapp.utils.ContextProviders
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -23,7 +22,7 @@ val viewModelModule = module {
     viewModel { MainViewModel(androidApplication()) }
     viewModel { MovieViewModel(get(), androidApplication()) }
     viewModel { TvShowViewModel(get(), androidApplication()) }
-    viewModel { DetailMovieViewModel(get(), androidApplication()) }
+    viewModel { DetailMovieViewModel(get(), androidApplication(), get()) }
     viewModel { DetailTvShowViewModel(get(), androidApplication()) }
     viewModel { FavoriteViewModel(androidApplication()) }
     viewModel { MovieFavoriteViewModel(get(), androidApplication()) }
@@ -33,5 +32,4 @@ val viewModelModule = module {
 val apiRepositoryModule = module {
     single { ContextProviders.getInstance() }
     single { ApiRepository(get(), get(), get(), get()) }
-    single { AppExecutors() }
 }

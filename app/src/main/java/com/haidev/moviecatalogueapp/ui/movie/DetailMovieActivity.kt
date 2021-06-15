@@ -2,6 +2,7 @@ package com.haidev.moviecatalogueapp.ui.movie
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
@@ -37,11 +38,11 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
         detailMovieViewModel.navigator = this
         initSkeleton()
         initView()
-        initCheckFavorite()
     }
 
     private fun initCheckFavorite() {
-       /* observeActivity(detailMovieViewModel.getFavoriteMovie(movie.id)) {
+        observeActivity(detailMovieViewModel.getFavoriteMovie(movie.id)) {
+            Log.d("CEKKKK1", it.toString())
             isFavorite = if (it?.id == movie.id) {
                 binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_select_24)
                 true
@@ -49,7 +50,9 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
                 binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_unselect_24)
                 false
             }
-        }*/
+
+            Log.d("CEKKKK2", isFavorite.toString())
+        }
     }
 
     private fun initSkeleton() {
@@ -64,6 +67,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
     private fun initView() {
         movie =
             intent.getParcelableExtra<ListMovie.Response.Result>(EXTRA_MOVIE) as ListMovie.Response.Result
+        initCheckFavorite()
         Glide.with(this).load("https://image.tmdb.org/t/p/w400/${movie.backdrop_path}")
             .into(binding.ivBackdrop)
         Glide.with(this).load("https://image.tmdb.org/t/p/w400/${movie.poster_path}")
@@ -89,13 +93,13 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
         }
 
         binding.btnFavorite.setOnClickListener {
-            /*if (isFavorite) {
+            if (isFavorite) {
                 detailMovieViewModel.deleteFavoriteMovie(detailMovie)
             } else {
-                detailMovieViewModel.setFavoriteMovie(detailMovie)
+                detailMovieViewModel.addFavoriteMovie(detailMovie)
             }
 
-            initCheckFavorite()*/
+            initCheckFavorite()
         }
     }
 
