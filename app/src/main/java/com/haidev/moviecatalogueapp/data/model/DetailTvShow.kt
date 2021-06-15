@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 object DetailTvShow {
-    @Entity(tableName = "tv_show_table")
+    @Entity(tableName = "tv_favorite_show_table")
     @Parcelize
     data class Response(
         val backdrop_path: String?,

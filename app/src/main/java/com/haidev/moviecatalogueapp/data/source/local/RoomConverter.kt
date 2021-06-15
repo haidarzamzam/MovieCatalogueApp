@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.DetailTvShow
 import com.haidev.moviecatalogueapp.data.model.ListMovie
+import com.haidev.moviecatalogueapp.data.model.ListTvShow
 
 class RoomConverter {
     //Movie Table
@@ -13,8 +14,18 @@ class RoomConverter {
         Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToLisMovie(value: String) =
+    fun jsonToListMovie(value: String) =
         Gson().fromJson(value, Array<ListMovie.Response.Result>::class.java)
+            .toList()
+
+    //Tv Show Table
+    @TypeConverter
+    fun listTvShowToJson(value: List<ListTvShow.Response.Result>): String =
+        Gson().toJson(value)
+
+    @TypeConverter
+    fun jsonToListTvShow(value: String) =
+        Gson().fromJson(value, Array<ListTvShow.Response.Result>::class.java)
             .toList()
 
     //Detail Movie Table

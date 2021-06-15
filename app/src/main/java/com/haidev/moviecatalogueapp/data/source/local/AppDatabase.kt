@@ -8,12 +8,14 @@ import androidx.room.TypeConverters
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.DetailTvShow
 import com.haidev.moviecatalogueapp.data.model.ListMovie
+import com.haidev.moviecatalogueapp.data.model.ListTvShow
 import com.haidev.moviecatalogueapp.data.source.dao.MovieDao
 import com.haidev.moviecatalogueapp.data.source.dao.TvShowDao
 
 @Database(
     entities = [
         ListMovie.Response.Result::class,
+        ListTvShow.Response.Result::class,
         DetailMovie.Response::class,
         DetailTvShow.Response::class
     ], version = 1, exportSchema = false

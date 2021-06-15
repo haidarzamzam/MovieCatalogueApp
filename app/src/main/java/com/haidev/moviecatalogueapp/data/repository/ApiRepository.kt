@@ -7,6 +7,7 @@ import androidx.paging.PagedList
 import com.haidev.moviecatalogueapp.BuildConfig
 import com.haidev.moviecatalogueapp.data.model.*
 import com.haidev.moviecatalogueapp.data.source.dao.MovieDao
+import com.haidev.moviecatalogueapp.data.source.dao.TvShowDao
 import com.haidev.moviecatalogueapp.data.source.endpoint.ApiService
 import com.haidev.moviecatalogueapp.data.source.utils.ApiResponse
 import com.haidev.moviecatalogueapp.data.source.utils.NetworkBoundResource
@@ -18,6 +19,7 @@ import com.haidev.moviecatalogueapp.utils.safeApiCall
 class ApiRepository(
     private val apiService: ApiService,
     private val movieDao: MovieDao,
+    private val tvShowDao: TvShowDao,
     private val coroutineContext: ContextProviders
 ) {
     fun getListMovie(): LiveData<Resource<PagedList<ListMovie.Response.Result>>> {
@@ -58,8 +60,42 @@ class ApiRepository(
         }.asLiveData()
     }
 
-    suspend fun getListTvShow(): ListTvShow.Response {
-        return apiService.getListTvShow(BuildConfig.API_KEY).await()
+    fun getListTvShow(): LiveData<Resource<PagedList<ListTvShow.Response.Result>>> {
+        return object :
+            NetworkBoundResource<PagedList<ListTvShow.Response.Result>, List<ListTvShow.Response.Result>>(
+                coroutineContext
+            ) {
+
+            override fun loadFromDB(): LiveData<PagedList<ListTvShow.Response.Result>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(5)
+                    .setPageSize(5)
+                    .build()
+                return LivePagedListBuilder(tvShowDao.readAllTvShow(), config).build()
+            }
+
+            override fun shouldFetch(data: PagedList<ListTvShow.Response.Result>?) = true
+
+            override fun createCall(): LiveData<ApiResponse<List<ListTvShow.Response.Result>>> {
+                val result = MutableLiveData<ApiResponse<List<ListTvShow.Response.Result>>>()
+                launchOn(coroutineContext.IO) {
+                    safeApiCall({
+                        apiService.getListTvShow(BuildConfig.API_KEY).await().also {
+                            result.postValue(ApiResponse.success(it.results))
+                        }
+                    }, {
+                        result.postValue(ApiResponse.error(getServiceErrorMsg(it), null))
+                    })
+                }
+                return result
+            }
+
+            override fun saveCallResult(data: List<ListTvShow.Response.Result>) {
+                tvShowDao.clearTvShow()
+                tvShowDao.addAllTvShow(data)
+            }
+        }.asLiveData()
     }
 
     suspend fun getDetailMovie(idMovie: String): DetailMovie.Response {

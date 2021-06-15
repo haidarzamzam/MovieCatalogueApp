@@ -6,13 +6,10 @@ import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.haidev.moviecatalogueapp.R
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
-import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.databinding.FragmentTvShowBinding
 import com.haidev.moviecatalogueapp.ui.base.BaseFragment
 import com.haidev.moviecatalogueapp.utils.enum.Status
-import com.haidev.moviecatalogueapp.utils.gone
 import com.haidev.moviecatalogueapp.utils.observeFragment
-import com.haidev.moviecatalogueapp.utils.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
@@ -37,48 +34,37 @@ class TvShowFragment : BaseFragment<FragmentTvShowBinding, TvShowViewModel>(),
 
     override fun onReadyAction() {
         initListMovieAdapter()
-        tvShowViewModel.getListTvShowAsync()
     }
 
     private fun initListMovieAdapter() {
         binding.rvTvShow.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
-            tvShowListAdapter = TvShowListAdapter(this@TvShowFragment)
+            tvShowListAdapter = TvShowListAdapter {
+                navigateToDetailTvShow(it)
+            }
             adapter = tvShowListAdapter
         }
     }
 
     override fun onObserveAction() {
-        with(tvShowViewModel) {
-            observeFragment(dataListTvShow, ::handleTvShowData)
-        }
-    }
-
-    private fun handleTvShowData(resource: Resource<ListTvShow.Response>) {
-        when (resource.status) {
-            Status.LOADING -> {
-                showLoading(true)
-            }
-            Status.SUCCESS -> {
-                showLoading(false)
-                resource.data?.results?.let {
-                    tvShowListAdapter.setData(it)
+        observeFragment(tvShowViewModel.getAllListTvShow()) {
+            when (it.status) {
+                Status.LOADING -> {
+                    if (it.data.isNullOrEmpty()) skeleton.showSkeleton()
+                    else {
+                        tvShowListAdapter.submitList(it.data)
+                        skeleton.showOriginal()
+                    }
                 }
-                binding.executePendingBindings()
-            }
-            else -> {
-            }
-        }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        skeleton.showSkeleton()
-        with(binding) {
-            if (isLoading) {
-                rvLoading.visible()
-            } else {
-                rvLoading.gone()
+                Status.SUCCESS -> {
+                    tvShowListAdapter.submitList(it.data)
+                    skeleton.showOriginal()
+                }
+                Status.ERROR -> {
+                    skeleton.showOriginal()
+                }
+                else -> skeleton.showOriginal()
             }
         }
     }

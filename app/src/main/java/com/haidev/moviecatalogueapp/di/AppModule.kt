@@ -32,6 +32,6 @@ val viewModelModule = module {
 
 val apiRepositoryModule = module {
     single { ContextProviders.getInstance() }
-    single { ApiRepository(get(), get(), get()) }
+    single { ApiRepository(get(), get(), get(), get()) }
     single { AppExecutors() }
 }

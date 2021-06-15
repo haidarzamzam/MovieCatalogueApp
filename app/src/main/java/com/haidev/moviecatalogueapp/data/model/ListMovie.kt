@@ -6,12 +6,13 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 object ListMovie {
+    @Parcelize
     data class Response(
         val page: Int,
         val results: List<Result>,
         val total_pages: Int,
         val total_results: Int
-    ) {
+    ) : Parcelable {
         @Entity(tableName = "movie_table")
         @Parcelize
         data class Result(

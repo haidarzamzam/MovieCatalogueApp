@@ -2,50 +2,48 @@ package com.haidev.moviecatalogueapp.ui.tvshow
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
 import com.haidev.moviecatalogueapp.databinding.ItemRowTvShowBinding
 
-class TvShowListAdapter(private val navigator: TvShowNavigator) :
-    RecyclerView.Adapter<TvShowListAdapter.ViewHolder>() {
-
-    private var list = mutableListOf<ListTvShow.Response.Result>()
-
-    fun setData(list: List<ListTvShow.Response.Result>) {
-        this.list.clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
-    }
+class TvShowListAdapter(
+    private val listener: (ListTvShow.Response.Result) -> Unit
+) : PagedListAdapter<ListTvShow.Response.Result, TvShowListAdapter.AddOnViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
-            ItemRowTvShowBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+        AddOnViewHolder(
+            ItemRowTvShowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
-    @ExperimentalStdlibApi
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (list.isNotEmpty()) {
-            holder.bindItem(list[position])
+    override fun onBindViewHolder(holder: AddOnViewHolder, position: Int) {
+        getItem(position)?.let { holder.bindItem(it) }
+    }
+
+    inner class AddOnViewHolder(
+        private var binding: ItemRowTvShowBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bindItem(item: ListTvShow.Response.Result) {
+            binding.item = item
+            binding.rating.rating = item.vote_average.div(2).toFloat()
+            itemView.setOnClickListener {
+                listener(item)
+            }
+            binding.executePendingBindings()
         }
     }
 
-    override fun getItemCount() = list.size
+    class DiffCallback : DiffUtil.ItemCallback<ListTvShow.Response.Result>() {
+        override fun areItemsTheSame(
+            oldItem: ListTvShow.Response.Result,
+            newItem: ListTvShow.Response.Result
+        ): Boolean = oldItem == newItem
 
-    inner class ViewHolder(private val binding: ItemRowTvShowBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        @ExperimentalStdlibApi
-        fun bindItem(
-            data: ListTvShow.Response.Result
-        ) {
-            binding.item = data
-            binding.rating.rating = data.vote_average.div(2).toFloat()
-            itemView.setOnClickListener {
-                navigator.navigateToDetailTvShow(data)
-            }
-        }
+        override fun areContentsTheSame(
+            oldItem: ListTvShow.Response.Result,
+            newItem: ListTvShow.Response.Result
+        ): Boolean = oldItem.id == newItem.id
     }
 }
