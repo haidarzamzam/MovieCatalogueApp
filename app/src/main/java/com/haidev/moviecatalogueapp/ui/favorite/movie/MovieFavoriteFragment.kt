@@ -1,12 +1,15 @@
 package com.haidev.moviecatalogueapp.ui.favorite.movie
 
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.haidev.moviecatalogueapp.R
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
+import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.databinding.FragmentMovieFavoriteBinding
 import com.haidev.moviecatalogueapp.ui.base.BaseFragment
+import com.haidev.moviecatalogueapp.ui.movie.DetailMovieActivity
 import com.haidev.moviecatalogueapp.utils.observeFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -55,6 +58,28 @@ class MovieFavoriteFragment : BaseFragment<FragmentMovieFavoriteBinding, MovieFa
     }
 
     override fun navigateToDetailMovie(data: DetailMovie.Response) {
-
+        val intent = Intent(activity?.applicationContext, DetailMovieActivity::class.java)
+        val listGenres = arrayListOf<Int>()
+        data.genres?.forEach { it.id?.let { it1 -> listGenres.add(it1) } }
+        val movie = data.id?.let {
+            ListMovie.Response.Result(
+                data.adult,
+                data.backdrop_path,
+                listGenres,
+                it,
+                data.original_language,
+                data.original_title,
+                data.overview,
+                data.popularity,
+                data.poster_path,
+                data.release_date,
+                data.title,
+                data.video,
+                data.vote_average,
+                data.vote_count
+            )
+        }
+        intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movie)
+        activity?.startActivity(intent)
     }
 }

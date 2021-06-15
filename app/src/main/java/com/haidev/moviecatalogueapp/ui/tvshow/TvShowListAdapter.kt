@@ -27,7 +27,7 @@ class TvShowListAdapter(
 
         fun bindItem(item: ListTvShow.Response.Result) {
             binding.item = item
-            binding.rating.rating = item.vote_average.div(2).toFloat()
+            binding.rating.rating = (item.vote_average?.div(2)?.toFloat() ?: 0.0) as Float
             itemView.setOnClickListener {
                 listener(item)
             }

@@ -70,7 +70,7 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
         Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.poster_path}")
             .into(binding.ivPoster)
         binding.tvTitle.text = tvshow.name
-        binding.rating.rating = tvshow.vote_average.div(2).toFloat()
+        binding.rating.rating = (tvshow.vote_average?.div(2)?.toFloat() ?: 0.0) as Float
         binding.tvRating.text = "(${tvshow.vote_average})"
         binding.tvOverview.text = tvshow.overview
         binding.tvReleaseDate.text = tvshow.first_air_date

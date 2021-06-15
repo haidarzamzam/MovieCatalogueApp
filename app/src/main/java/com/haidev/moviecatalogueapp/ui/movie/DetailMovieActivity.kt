@@ -69,7 +69,7 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
         Glide.with(this).load("https://image.tmdb.org/t/p/w400/${movie.poster_path}")
             .into(binding.ivPoster)
         binding.tvTitle.text = movie.title
-        binding.rating.rating = movie.vote_average.div(2).toFloat()
+        binding.rating.rating = (movie.vote_average?.div(2)?.toFloat() ?: 0.0) as Float
         binding.tvRating.text = "(${movie.vote_average})"
         binding.tvOverview.text = movie.overview
         binding.tvReleaseDate.text = movie.release_date
@@ -127,9 +127,9 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
             Status.SUCCESS -> {
                 showLoading(false)
                 detailMovie = resource.data!!
-                if (resource.data.genres?.isNotEmpty() == true) {
-                    resource.data.genres.let {
-                        detailMovieGenresAdapter.setData(it)
+                if (detailMovie.genres?.isNotEmpty() == true) {
+                    detailMovie.genres.let {
+                        it?.let { it1 -> detailMovieGenresAdapter.setData(it1) }
                     }
                 } else {
                     binding.rvLoadingGenres.gone()
@@ -137,9 +137,9 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
                     binding.tvTitleGenres.gone()
                 }
 
-                if (resource.data.production_companies?.isNotEmpty() == true) {
-                    resource.data.production_companies.let {
-                        detailMovieProductionAdapter.setData(it)
+                if (detailMovie.production_companies?.isNotEmpty() == true) {
+                    detailMovie.production_companies.let {
+                        it?.let { it1 -> detailMovieProductionAdapter.setData(it1) }
                     }
                 } else {
                     binding.rvLoadingProduction.gone()

@@ -7,6 +7,7 @@ import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
 import com.haidev.moviecatalogueapp.ui.utils.observeTest
+import com.haidev.moviecatalogueapp.utils.ContextProviders
 import com.haidev.moviecatalogueapp.utils.DataDummy
 import com.haidev.moviecatalogueapp.utils.ErrorUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,6 +47,9 @@ class DetailTvShowViewModelTest {
     @Mock
     private lateinit var response: DetailTvShow.Response
 
+    @Mock
+    private lateinit var coroutineContext: ContextProviders
+
     private val dummyTvShow: DetailTvShow.Response = DataDummy.generateDummyDetailTvShow()
 
     private val error = Error()
@@ -57,7 +61,8 @@ class DetailTvShowViewModelTest {
         viewModel =
             DetailTvShowViewModel(
                 apiRepo,
-                app
+                app,
+                coroutineContext
             )
         viewModel.navigator = navigator
     }

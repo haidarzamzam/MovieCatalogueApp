@@ -18,7 +18,7 @@ import com.haidev.moviecatalogueapp.data.source.dao.TvShowDao
         ListTvShow.Response.Result::class,
         DetailMovie.Response::class,
         DetailTvShow.Response::class
-    ], version = 1, exportSchema = false
+    ], version = 2, exportSchema = false
 )
 
 @TypeConverters(RoomConverter::class)
