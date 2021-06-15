@@ -41,4 +41,8 @@ class DetailMovieViewModel(
     fun setFavoriteMovie(movie: DetailMovie.Response) {
         appExecutors.diskIO().execute { apiRepository.insertMovie(movie) }
     }
+
+    fun deleteFavoriteMovie(movie: DetailMovie.Response) {
+        appExecutors.diskIO().execute { apiRepository.deleteMovie(movie) }
+    }
 }

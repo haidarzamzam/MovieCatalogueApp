@@ -1,4 +1,4 @@
-package com.haidev.moviecatalogueapp.ui.favorite.menus
+package com.haidev.moviecatalogueapp.ui.favorite.tvshow
 
 import android.os.Bundle
 import android.view.LayoutInflater

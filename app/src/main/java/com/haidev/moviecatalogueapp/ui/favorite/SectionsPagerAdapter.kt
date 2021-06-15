@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.haidev.moviecatalogueapp.R
-import com.haidev.moviecatalogueapp.ui.favorite.menus.MovieFavoriteFragment
-import com.haidev.moviecatalogueapp.ui.favorite.menus.TvShowFavoriteFragment
+import com.haidev.moviecatalogueapp.ui.favorite.movie.MovieFavoriteFragment
+import com.haidev.moviecatalogueapp.ui.favorite.tvshow.TvShowFavoriteFragment
 
 class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

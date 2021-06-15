@@ -3,6 +3,8 @@ package com.haidev.moviecatalogueapp.di
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
 import com.haidev.moviecatalogueapp.ui.base.MainViewModel
 import com.haidev.moviecatalogueapp.ui.favorite.FavoriteViewModel
+import com.haidev.moviecatalogueapp.ui.favorite.movie.MovieFavoriteViewModel
+import com.haidev.moviecatalogueapp.ui.favorite.tvshow.TvShowFavoriteViewModel
 import com.haidev.moviecatalogueapp.ui.home.HomeViewModel
 import com.haidev.moviecatalogueapp.ui.movie.DetailMovieViewModel
 import com.haidev.moviecatalogueapp.ui.movie.MovieViewModel
@@ -24,6 +26,8 @@ val viewModelModule = module {
     viewModel { DetailMovieViewModel(get(), get(), androidApplication()) }
     viewModel { DetailTvShowViewModel(get(), androidApplication()) }
     viewModel { FavoriteViewModel(androidApplication()) }
+    viewModel { MovieFavoriteViewModel(get(), androidApplication()) }
+    viewModel { TvShowFavoriteViewModel(get(), androidApplication()) }
 }
 
 val apiRepositoryModule = module {

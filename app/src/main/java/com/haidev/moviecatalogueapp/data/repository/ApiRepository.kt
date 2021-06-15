@@ -12,8 +12,10 @@ class ApiRepository(
     private val apiService: ApiService,
     private val movieDao: MovieDao,
 ) {
+    fun readAllMovie() = movieDao.readAllMovie()
     fun readMovie(idMovie: Int) = movieDao.readMovie(idMovie)
     fun insertMovie(movie: DetailMovie.Response) = movieDao.insertMovie(movie)
+    fun deleteMovie(movie: DetailMovie.Response) = movieDao.deleteMovie(movie)
 
     suspend fun getListMovie(): ListMovie.Response {
         return apiService.getListMovie(BuildConfig.API_KEY).await()

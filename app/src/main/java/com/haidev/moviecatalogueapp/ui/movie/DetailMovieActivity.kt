@@ -89,7 +89,12 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
         }
 
         binding.btnFavorite.setOnClickListener {
-            detailMovieViewModel.setFavoriteMovie(detailMovie)
+            if (isFavorite) {
+                detailMovieViewModel.deleteFavoriteMovie(detailMovie)
+            } else {
+                detailMovieViewModel.setFavoriteMovie(detailMovie)
+            }
+
             initCheckFavorite()
         }
     }
