@@ -26,6 +26,6 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addMovieFavorite(movie: DetailMovie.Response?)
 
-    @Delete()
+    @Delete
     fun deleteMovieFavorite(movie: DetailMovie.Response?)
 }

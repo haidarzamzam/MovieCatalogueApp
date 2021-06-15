@@ -2,7 +2,6 @@ package com.haidev.moviecatalogueapp.ui.movie
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
@@ -42,7 +41,6 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
 
     private fun initCheckFavorite() {
         observeActivity(detailMovieViewModel.getFavoriteMovie(movie.id)) {
-            Log.d("CEKKKK1", it.toString())
             isFavorite = if (it?.id == movie.id) {
                 binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_select_24)
                 true
@@ -50,8 +48,6 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
                 binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_unselect_24)
                 false
             }
-
-            Log.d("CEKKKK2", isFavorite.toString())
         }
     }
 

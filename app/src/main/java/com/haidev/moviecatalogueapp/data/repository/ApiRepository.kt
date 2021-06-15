@@ -25,7 +25,12 @@ class ApiRepository(
     fun getAllMovieFavorite() = movieDao.readAllMovieFavorite()
     fun getMovieFavorite(idMovie: Int) = movieDao.readMovieFavorite(idMovie)
     fun addMovieFavorite(movie: DetailMovie.Response) = movieDao.addMovieFavorite(movie)
-    fun deleteMovieFavorite(movide: DetailMovie.Response) = movieDao.deleteMovieFavorite(movide)
+    fun deleteMovieFavorite(movie: DetailMovie.Response) = movieDao.deleteMovieFavorite(movie)
+
+    fun getAllTvShowFavorite() = tvShowDao.readAllTvShowFavorite()
+    fun getTvShowFavorite(idTvShow: Int) = tvShowDao.readTvShowFavorite(idTvShow)
+    fun addTvShowFavorite(tvShow: DetailTvShow.Response) = tvShowDao.addTvShowFavorite(tvShow)
+    fun deleteTvShowFavorite(tvShow: DetailTvShow.Response) = tvShowDao.deleteTvShowFavorite(tvShow)
 
     fun getListMovie(): LiveData<Resource<PagedList<ListMovie.Response.Result>>> {
         return object :

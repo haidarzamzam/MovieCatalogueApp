@@ -28,6 +28,8 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
     private lateinit var skeletonGenres: Skeleton
     private lateinit var skeletonProduction: Skeleton
     private lateinit var tvshow: ListTvShow.Response.Result
+    private lateinit var detailTvshow: DetailTvShow.Response
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,18 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
         detailTvShowViewModel.navigator = this
         initSkeleton()
         initView()
+    }
+
+    private fun initCheckFavorite() {
+        observeActivity(detailTvShowViewModel.getFavoriteTvSHow(tvshow.id)) {
+            isFavorite = if (it?.id == tvshow.id) {
+                binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_select_24)
+                true
+            } else {
+                binding.btnFavorite.setImageResource(R.drawable.ic_baseline_favorite_unselect_24)
+                false
+            }
+        }
     }
 
     private fun initSkeleton() {
@@ -50,6 +64,7 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
     private fun initView() {
         tvshow =
             intent.getParcelableExtra<ListTvShow.Response.Result>(EXTRA_TV) as ListTvShow.Response.Result
+        initCheckFavorite()
         Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.backdrop_path}")
             .into(binding.ivBackdrop)
         Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.poster_path}")
@@ -72,6 +87,16 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
             )
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
+        }
+
+        binding.btnFavorite.setOnClickListener {
+            if (isFavorite) {
+                detailTvShowViewModel.deleteFavoriteTvSHow(detailTvshow)
+            } else {
+                detailTvShowViewModel.addFavoriteTvSHow(detailTvshow)
+            }
+
+            initCheckFavorite()
         }
     }
 
@@ -101,7 +126,8 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
             }
             Status.SUCCESS -> {
                 showLoading(false)
-                if (resource.data?.genres?.isNotEmpty() == true) {
+                detailTvshow = resource.data!!
+                if (resource.data.genres?.isNotEmpty() == true) {
                     resource.data.genres.let {
                         detailTvShowGenresAdapter.setData(it)
                     }
@@ -111,7 +137,7 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
                     binding.tvTitleGenres.gone()
                 }
 
-                if (resource.data?.production_companies?.isNotEmpty() == true) {
+                if (resource.data.production_companies?.isNotEmpty() == true) {
                     resource.data.production_companies.let {
                         detailTvShowProductionAdapter.setData(it)
                     }

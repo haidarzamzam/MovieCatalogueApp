@@ -23,7 +23,7 @@ val viewModelModule = module {
     viewModel { MovieViewModel(get(), androidApplication()) }
     viewModel { TvShowViewModel(get(), androidApplication()) }
     viewModel { DetailMovieViewModel(get(), androidApplication(), get()) }
-    viewModel { DetailTvShowViewModel(get(), androidApplication()) }
+    viewModel { DetailTvShowViewModel(get(), androidApplication(), get()) }
     viewModel { FavoriteViewModel(androidApplication()) }
     viewModel { MovieFavoriteViewModel(get(), androidApplication()) }
     viewModel { TvShowFavoriteViewModel(get(), androidApplication()) }

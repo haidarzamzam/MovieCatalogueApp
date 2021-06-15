@@ -1,10 +1,9 @@
 package com.haidev.moviecatalogueapp.data.source.dao
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.haidev.moviecatalogueapp.data.model.DetailTvShow
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
 
 @Dao
@@ -17,4 +16,16 @@ interface TvShowDao {
 
     @Query("DELETE FROM tv_show_table")
     fun clearTvShow()
+
+    @Query("SELECT * FROM tv_favorite_show_table")
+    fun readAllTvShowFavorite(): LiveData<List<DetailTvShow.Response?>>
+
+    @Query("SELECT * FROM tv_favorite_show_table WHERE id = :idTvShow")
+    fun readTvShowFavorite(idTvShow: Int): LiveData<DetailTvShow.Response?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addTvShowFavorite(tvShow: DetailTvShow.Response?)
+
+    @Delete
+    fun deleteTvShowFavorite(tvShow: DetailTvShow.Response?)
 }
