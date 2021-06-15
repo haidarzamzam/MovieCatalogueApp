@@ -9,4 +9,5 @@
     <string name="text_production_companies">Production Companies</string>
     <string name="text_favorite">Favorite</string>
     <string name="text_close">Close</string>
+    <string name="text_no_data">No data favorite</string>
 </resources>

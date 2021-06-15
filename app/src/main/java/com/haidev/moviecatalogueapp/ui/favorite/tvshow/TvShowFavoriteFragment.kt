@@ -10,7 +10,9 @@ import com.haidev.moviecatalogueapp.data.model.ListTvShow
 import com.haidev.moviecatalogueapp.databinding.FragmentTvShowFavoriteBinding
 import com.haidev.moviecatalogueapp.ui.base.BaseFragment
 import com.haidev.moviecatalogueapp.ui.tvshow.DetailTvShowActivity
+import com.haidev.moviecatalogueapp.utils.gone
 import com.haidev.moviecatalogueapp.utils.observeFragment
+import com.haidev.moviecatalogueapp.utils.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowFavoriteFragment :
@@ -43,6 +45,11 @@ class TvShowFavoriteFragment :
     override fun onObserveAction() {
         observeFragment(tvShowFavoriteViewModel.getAllFavoriteTvSHow()) {
             it.let {
+                if (it.isEmpty()) {
+                    binding.tvNoData.visible()
+                } else {
+                    binding.tvNoData.gone()
+                }
                 tvShowFavoriteListAdapter.setData(it as List<DetailTvShow.Response>)
             }
             binding.executePendingBindings()

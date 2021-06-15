@@ -10,7 +10,9 @@ import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.databinding.FragmentMovieFavoriteBinding
 import com.haidev.moviecatalogueapp.ui.base.BaseFragment
 import com.haidev.moviecatalogueapp.ui.movie.DetailMovieActivity
+import com.haidev.moviecatalogueapp.utils.gone
 import com.haidev.moviecatalogueapp.utils.observeFragment
+import com.haidev.moviecatalogueapp.utils.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFavoriteFragment : BaseFragment<FragmentMovieFavoriteBinding, MovieFavoriteViewModel>(),
@@ -42,6 +44,11 @@ class MovieFavoriteFragment : BaseFragment<FragmentMovieFavoriteBinding, MovieFa
     override fun onObserveAction() {
         observeFragment(movieFavoriteViewModel.getAllFavoriteMovie()) {
             it.let {
+                if (it.isEmpty()) {
+                    binding.tvNoData.visible()
+                } else {
+                    binding.tvNoData.gone()
+                }
                 movieFavoriteListAdapter.setData(it as List<DetailMovie.Response>)
             }
             binding.executePendingBindings()
