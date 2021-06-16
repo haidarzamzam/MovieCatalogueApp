@@ -86,6 +86,6 @@ class TvShowFragmentTest {
                     ViewActions.click()
                 )
             )
-        Espresso.onView(ViewMatchers.withId(R.id.btn_share)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.btn_favorite)).perform(ViewActions.click())
     }
 }
