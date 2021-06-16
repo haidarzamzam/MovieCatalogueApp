@@ -62,7 +62,7 @@ class TvShowViewModelTest {
     }
 
     @Test
-    fun getAllTvShow() {
+    fun `getTvShows should be success`() {
         testCoroutineRule.runBlockingTest {
             val tvshow = PagedTestDataSources.snapshot(dummyTvSHow)
             val expected = MutableLiveData<Resource<PagedList<ListTvShow.Response.Result>>>()
@@ -80,6 +80,44 @@ class TvShowViewModelTest {
             Assert.assertEquals(expectedValue?.data?.size, actualValue?.data?.size)
         }
     }
+
+    @Test
+    fun `getTvShows should be success but data is empty`() {
+        testCoroutineRule.runBlockingTest {
+            val courses = PagedTestDataSources.snapshot()
+            val expected = MutableLiveData<Resource<PagedList<ListTvShow.Response.Result>>>()
+            expected.value = Resource.success(courses)
+
+            Mockito.`when`(repo.getListTvShow()).thenReturn(expected)
+
+            viewModel.getAllListTvShow().observeForever(observer)
+            Mockito.verify(observer).onChanged(expected.value)
+
+            val actualValueDataSize = viewModel.getAllListTvShow().value?.data?.size
+            Assert.assertTrue(
+                "size of data should be 0, actual is $actualValueDataSize",
+                actualValueDataSize == 0
+            )
+        }
+    }
+
+    @Test
+    fun `getTvShows should be error`() {
+        testCoroutineRule.runBlockingTest {
+            val expectedMessage = "Something happen dude!"
+            val expected = MutableLiveData<Resource<PagedList<ListTvShow.Response.Result>>>()
+            expected.value = Resource.error(expectedMessage, null)
+
+            Mockito.`when`(repo.getListTvShow()).thenReturn(expected)
+
+            viewModel.getAllListTvShow().observeForever(observer)
+            Mockito.verify(observer).onChanged(expected.value)
+
+            val actualMessage = viewModel.getAllListTvShow().value?.message
+            Assert.assertEquals(expectedMessage, actualMessage)
+        }
+    }
+
 
     class PagedTestDataSources private constructor(private val items: List<ListTvShow.Response.Result>) :
         PositionalDataSource<ListTvShow.Response.Result>() {

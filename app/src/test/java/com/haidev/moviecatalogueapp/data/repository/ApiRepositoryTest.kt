@@ -60,8 +60,10 @@ class ApiRepositoryTest {
 
     private val dummyMovies = DataDummy.generateDummyListMovie()
     private val dummyTvShow = DataDummy.generateDummyListTvShow()
-    private val dummyDetailMovies: DetailMovie.Response = DataDummy.generateDummyDetailMovie()
-    private val dummyDetailTvShow: DetailTvShow.Response = DataDummy.generateDummyDetailTvShow()
+    private val dummyDetailMovies: DetailMovie.Response =
+        DataDummy.generateDummyDetailMovie().first()
+    private val dummyDetailTvShow: DetailTvShow.Response =
+        DataDummy.generateDummyDetailTvShow().first()
 
     @Mock
     private lateinit var repo: ApiRepository

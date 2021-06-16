@@ -2,14 +2,17 @@ package com.haidev.moviecatalogueapp.ui.tvshow
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import com.haidev.moviecatalogueapp.data.model.DetailTvShow
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
+import com.haidev.moviecatalogueapp.ui.utils.LiveDataTestUtil
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
 import com.haidev.moviecatalogueapp.ui.utils.observeTest
 import com.haidev.moviecatalogueapp.utils.ContextProviders
 import com.haidev.moviecatalogueapp.utils.DataDummy
 import com.haidev.moviecatalogueapp.utils.ErrorUtils
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert
@@ -50,7 +53,7 @@ class DetailTvShowViewModelTest {
     @Mock
     private lateinit var coroutineContext: ContextProviders
 
-    private val dummyTvShow: DetailTvShow.Response = DataDummy.generateDummyDetailTvShow()
+    private val dummyTvShow: DetailTvShow.Response = DataDummy.generateDummyDetailTvShow().first()
 
     private val error = Error()
 
@@ -105,6 +108,20 @@ class DetailTvShowViewModelTest {
                 Mockito.verify(it)
                     .onChanged(Resource.error(ErrorUtils.getErrorThrowableMsg(error), null, error))
             }
+        }
+    }
+
+    @Test
+    fun `getTvShow Favorite with id should be success`() {
+        testCoroutineRule.runBlockingTest {
+            val expected = MutableLiveData<DetailTvShow.Response?>()
+            expected.value = DataDummy.generateDummyDetailTvShow().first()
+            Mockito.`when`(viewModel.getFavoriteTvSHow(63174)).thenReturn(expected)
+
+            val dataTvShow = LiveDataTestUtil.getValue(apiRepo.getTvShowFavorite(63174))
+            verify(apiRepo).getTvShowFavorite(63174)
+            Assert.assertNotNull(dataTvShow)
+            Assert.assertEquals(dummyTvShow, dataTvShow)
         }
     }
 }

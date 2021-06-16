@@ -2,14 +2,17 @@ package com.haidev.moviecatalogueapp.ui.movie
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
+import com.haidev.moviecatalogueapp.ui.utils.LiveDataTestUtil
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
 import com.haidev.moviecatalogueapp.ui.utils.observeTest
 import com.haidev.moviecatalogueapp.utils.ContextProviders
 import com.haidev.moviecatalogueapp.utils.DataDummy
 import com.haidev.moviecatalogueapp.utils.ErrorUtils
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert
@@ -50,7 +53,7 @@ class DetailMovieViewModelTest {
     @Mock
     private lateinit var coroutineContext: ContextProviders
 
-    private val dummyMovies: DetailMovie.Response = DataDummy.generateDummyDetailMovie()
+    private val dummyMovies: DetailMovie.Response = DataDummy.generateDummyDetailMovie().first()
 
     private val error = Error()
 
@@ -105,6 +108,20 @@ class DetailMovieViewModelTest {
                 Mockito.verify(it)
                     .onChanged(Resource.error(ErrorUtils.getErrorThrowableMsg(error), null, error))
             }
+        }
+    }
+
+    @Test
+    fun `getMovie Favorite with id should be success`() {
+        testCoroutineRule.runBlockingTest {
+            val expected = MutableLiveData<DetailMovie.Response?>()
+            expected.value = DataDummy.generateDummyDetailMovie().first()
+            Mockito.`when`(viewModel.getFavoriteMovie(337404)).thenReturn(expected)
+
+            val dataMovie = LiveDataTestUtil.getValue(apiRepo.getMovieFavorite(337404))
+            verify(apiRepo).getMovieFavorite(337404)
+            Assert.assertNotNull(dataMovie)
+            Assert.assertEquals(dummyMovies, dataMovie)
         }
     }
 }

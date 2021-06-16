@@ -14,6 +14,7 @@ import com.haidev.moviecatalogueapp.utils.DataDummy
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -64,7 +65,7 @@ class MovieViewModelTest {
     }
 
     @Test
-    fun getAllMovies() {
+    fun `getMovies should be success`() {
         testCoroutineRule.runBlockingTest {
             val movies = PagedTestDataSources.snapshot(dummyMovies)
             val expected = MutableLiveData<Resource<PagedList<ListMovie.Response.Result>>>()
@@ -80,6 +81,43 @@ class MovieViewModelTest {
             assertEquals(expectedValue, actualValue)
             assertEquals(expectedValue?.data, actualValue?.data)
             assertEquals(expectedValue?.data?.size, actualValue?.data?.size)
+        }
+    }
+
+    @Test
+    fun `getMovies should be success but data is empty`() {
+        testCoroutineRule.runBlockingTest {
+            val courses = PagedTestDataSources.snapshot()
+            val expected = MutableLiveData<Resource<PagedList<ListMovie.Response.Result>>>()
+            expected.value = Resource.success(courses)
+
+            Mockito.`when`(repo.getListMovie()).thenReturn(expected)
+
+            viewModel.getAllListMovie().observeForever(observer)
+            Mockito.verify(observer).onChanged(expected.value)
+
+            val actualValueDataSize = viewModel.getAllListMovie().value?.data?.size
+            Assert.assertTrue(
+                "size of data should be 0, actual is $actualValueDataSize",
+                actualValueDataSize == 0
+            )
+        }
+    }
+
+    @Test
+    fun `getMovies should be error`() {
+        testCoroutineRule.runBlockingTest {
+            val expectedMessage = "Something happen dude!"
+            val expected = MutableLiveData<Resource<PagedList<ListMovie.Response.Result>>>()
+            expected.value = Resource.error(expectedMessage, null)
+
+            Mockito.`when`(repo.getListMovie()).thenReturn(expected)
+
+            viewModel.getAllListMovie().observeForever(observer)
+            Mockito.verify(observer).onChanged(expected.value)
+
+            val actualMessage = viewModel.getAllListMovie().value?.message
+            Assert.assertEquals(expectedMessage, actualMessage)
         }
     }
 
