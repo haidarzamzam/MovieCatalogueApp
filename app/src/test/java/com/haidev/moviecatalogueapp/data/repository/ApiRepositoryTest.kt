@@ -6,7 +6,11 @@ import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.DetailTvShow
 import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
+import com.haidev.moviecatalogueapp.data.source.dao.MovieDao
+import com.haidev.moviecatalogueapp.data.source.dao.TvShowDao
+import com.haidev.moviecatalogueapp.data.source.endpoint.ApiService
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
+import com.haidev.moviecatalogueapp.utils.ContextProviders
 import com.haidev.moviecatalogueapp.utils.DataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
@@ -28,9 +32,6 @@ class ApiRepositoryTest {
     val testCoroutineRule = TestCoroutineRule()
 
     @Mock
-    private lateinit var apiRepo: ApiRepository
-
-    @Mock
     private lateinit var responseMovies: List<ListMovie.Response.Result>
 
     @Mock
@@ -42,10 +43,28 @@ class ApiRepositoryTest {
     @Mock
     private lateinit var responseDetailTvShow: DetailTvShow.Response
 
+    @Mock
+    private val apiService: ApiService? = null
+
+    @Mock
+    private lateinit var movieDao: MovieDao
+
+    @Mock
+    private lateinit var tvShowDao: TvShowDao
+
+    @Mock
+    private lateinit var coroutineContext: ContextProviders
+
+    private var apiRepo =
+        apiService?.let { FakeApiRepository(it, movieDao, tvShowDao, coroutineContext) }
+
     private val dummyMovies = DataDummy.generateDummyListMovie()
     private val dummyTvShow = DataDummy.generateDummyListTvShow()
     private val dummyDetailMovies: DetailMovie.Response = DataDummy.generateDummyDetailMovie()
     private val dummyDetailTvShow: DetailTvShow.Response = DataDummy.generateDummyDetailTvShow()
+
+    @Mock
+    private lateinit var repo: ApiRepository
 
     @Before
     fun setUp() {
@@ -59,7 +78,8 @@ class ApiRepositoryTest {
 
             val dataSourceFactory =
                 Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, ListMovie.Response.Result>
-            Mockito.`when`(apiRepo.getAllMovie()).thenReturn(dataSourceFactory)
+            Mockito.`when`(repo.getAllMovie()).thenReturn(dataSourceFactory)
+            apiRepo?.getListMovie()
 
             assertNotNull(responseMovies)
             assertEquals(1, responseMovies.size)
@@ -73,7 +93,8 @@ class ApiRepositoryTest {
 
             val dataSourceFactory =
                 Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, ListTvShow.Response.Result>
-            Mockito.`when`(apiRepo.getAllTvShow()).thenReturn(dataSourceFactory)
+            Mockito.`when`(repo.getAllTvShow()).thenReturn(dataSourceFactory)
+            apiRepo?.getListTvShow()
 
             assertNotNull(responseTvShow)
             assertEquals(1, responseTvShow.size)
@@ -85,7 +106,7 @@ class ApiRepositoryTest {
         testCoroutineRule.runBlockingTest {
             responseDetailMovies = dummyDetailMovies
 
-            Mockito.`when`(apiRepo.getDetailMovie("337404"))
+            Mockito.`when`(repo.getDetailMovie("337404"))
                 .thenReturn(responseDetailMovies)
 
             assertNotNull(responseDetailMovies)
@@ -98,7 +119,7 @@ class ApiRepositoryTest {
         testCoroutineRule.runBlockingTest {
             responseDetailTvShow = dummyDetailTvShow
 
-            Mockito.`when`(apiRepo.getDetailTvShow("63174"))
+            Mockito.`when`(repo.getDetailTvShow("63174"))
                 .thenReturn(responseDetailTvShow)
 
             assertNotNull(responseDetailTvShow)
