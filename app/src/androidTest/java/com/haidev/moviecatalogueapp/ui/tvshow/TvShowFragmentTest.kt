@@ -75,4 +75,17 @@ class TvShowFragmentTest {
             )
         Espresso.onView(ViewMatchers.withId(R.id.btn_share)).perform(ViewActions.click())
     }
+
+    @Test
+    fun clickFavoriteDetailTvShow() {
+        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.rv_tv_show))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    ViewActions.click()
+                )
+            )
+        Espresso.onView(ViewMatchers.withId(R.id.btn_share)).perform(ViewActions.click())
+    }
 }
