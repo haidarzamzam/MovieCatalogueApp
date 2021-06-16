@@ -2,11 +2,13 @@ package com.haidev.moviecatalogueapp.ui.tvshow
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.paging.DataSource
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
+import androidx.paging.PositionalDataSource
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
-import com.haidev.moviecatalogueapp.ui.utils.PagedListUtil
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
 import com.haidev.moviecatalogueapp.utils.DataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,6 +22,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import java.util.concurrent.Executors
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
@@ -42,6 +45,9 @@ class TvShowViewModelTest {
     @Mock
     private lateinit var repo: ApiRepository
 
+    @Mock
+    private lateinit var observer: Observer<Resource<PagedList<ListTvShow.Response.Result>>>
+
     private val dummyTvSHow = DataDummy.generateDummyListTvShow()
 
     @Before
@@ -56,20 +62,50 @@ class TvShowViewModelTest {
     }
 
     @Test
-    fun getAllMovies() {
+    fun getAllTvShow() {
         testCoroutineRule.runBlockingTest {
-            val dataSourceFactory =
-                Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, ListTvShow.Response.Result>
-            Mockito.`when`(repo.getAllTvShow()).thenReturn(dataSourceFactory)
-            repo.getListTvShow()
+            val tvshow = PagedTestDataSources.snapshot(dummyTvSHow)
+            val expected = MutableLiveData<Resource<PagedList<ListTvShow.Response.Result>>>()
+            expected.value = Resource.success(tvshow)
 
-            val movieEntities =
-                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyListTvShow()))
-            Assert.assertNotNull(movieEntities.data)
-            Assert.assertEquals(
-                dummyTvSHow.size.toLong(),
-                movieEntities.data?.size?.toLong()
-            )
+            Mockito.`when`(repo.getListTvShow()).thenReturn(expected)
+
+            viewModel.getAllListTvShow().observeForever(observer)
+            Mockito.verify(observer).onChanged(expected.value)
+
+            val expectedValue = expected.value
+            val actualValue = viewModel.getAllListTvShow().value
+            Assert.assertEquals(expectedValue, actualValue)
+            Assert.assertEquals(expectedValue?.data, actualValue?.data)
+            Assert.assertEquals(expectedValue?.data?.size, actualValue?.data?.size)
+        }
+    }
+
+    class PagedTestDataSources private constructor(private val items: List<ListTvShow.Response.Result>) :
+        PositionalDataSource<ListTvShow.Response.Result>() {
+        companion object {
+            fun snapshot(items: List<ListTvShow.Response.Result> = listOf()): PagedList<ListTvShow.Response.Result> {
+                return PagedList.Builder(PagedTestDataSources(items), 10)
+                    .setNotifyExecutor(Executors.newSingleThreadExecutor())
+                    .setFetchExecutor(Executors.newSingleThreadExecutor())
+                    .build()
+            }
+        }
+
+        override fun loadInitial(
+            params: LoadInitialParams,
+            callback: LoadInitialCallback<ListTvShow.Response.Result>
+        ) {
+            callback.onResult(items, 0, items.size)
+        }
+
+        override fun loadRange(
+            params: LoadRangeParams,
+            callback: LoadRangeCallback<ListTvShow.Response.Result>
+        ) {
+            val start = params.startPosition
+            val end = params.startPosition + params.loadSize
+            callback.onResult(items.subList(start, end))
         }
     }
 }

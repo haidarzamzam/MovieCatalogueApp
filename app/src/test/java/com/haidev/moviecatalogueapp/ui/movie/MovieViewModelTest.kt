@@ -2,17 +2,18 @@ package com.haidev.moviecatalogueapp.ui.movie
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.paging.DataSource
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
+import androidx.paging.PositionalDataSource
 import com.haidev.moviecatalogueapp.data.model.ListMovie
 import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.repository.ApiRepository
-import com.haidev.moviecatalogueapp.ui.utils.PagedListUtil
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
 import com.haidev.moviecatalogueapp.utils.DataDummy
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,6 +23,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import java.util.concurrent.Executors
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
@@ -44,6 +46,9 @@ class MovieViewModelTest {
     @Mock
     private lateinit var repo: ApiRepository
 
+    @Mock
+    private lateinit var observer: Observer<Resource<PagedList<ListMovie.Response.Result>>>
+
     private val dummyMovies = DataDummy.generateDummyListMovie()
 
     @ObsoleteCoroutinesApi
@@ -58,19 +63,51 @@ class MovieViewModelTest {
         viewModel.navigator = navigator
     }
 
-
     @Test
     fun getAllMovies() {
         testCoroutineRule.runBlockingTest {
-            val dataSourceFactory =
-                Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, ListMovie.Response.Result>
-            Mockito.`when`(repo.getAllMovie()).thenReturn(dataSourceFactory)
-            repo.getListMovie()
+            val movies = PagedTestDataSources.snapshot(dummyMovies)
+            val expected = MutableLiveData<Resource<PagedList<ListMovie.Response.Result>>>()
+            expected.value = Resource.success(movies)
 
-            val movieEntities =
-                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyListMovie()))
-            Assert.assertNotNull(movieEntities.data)
-            assertEquals(dummyMovies.size.toLong(), movieEntities.data?.size?.toLong())
+            Mockito.`when`(repo.getListMovie()).thenReturn(expected)
+
+            viewModel.getAllListMovie().observeForever(observer)
+            Mockito.verify(observer).onChanged(expected.value)
+
+            val expectedValue = expected.value
+            val actualValue = viewModel.getAllListMovie().value
+            assertEquals(expectedValue, actualValue)
+            assertEquals(expectedValue?.data, actualValue?.data)
+            assertEquals(expectedValue?.data?.size, actualValue?.data?.size)
+        }
+    }
+
+    class PagedTestDataSources private constructor(private val items: List<ListMovie.Response.Result>) :
+        PositionalDataSource<ListMovie.Response.Result>() {
+        companion object {
+            fun snapshot(items: List<ListMovie.Response.Result> = listOf()): PagedList<ListMovie.Response.Result> {
+                return PagedList.Builder(PagedTestDataSources(items), 10)
+                    .setNotifyExecutor(Executors.newSingleThreadExecutor())
+                    .setFetchExecutor(Executors.newSingleThreadExecutor())
+                    .build()
+            }
+        }
+
+        override fun loadInitial(
+            params: LoadInitialParams,
+            callback: LoadInitialCallback<ListMovie.Response.Result>
+        ) {
+            callback.onResult(items, 0, items.size)
+        }
+
+        override fun loadRange(
+            params: LoadRangeParams,
+            callback: LoadRangeCallback<ListMovie.Response.Result>
+        ) {
+            val start = params.startPosition
+            val end = params.startPosition + params.loadSize
+            callback.onResult(items.subList(start, end))
         }
     }
 }
