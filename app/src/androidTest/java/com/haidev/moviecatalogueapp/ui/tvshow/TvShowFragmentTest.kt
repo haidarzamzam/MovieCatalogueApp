@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import com.haidev.moviecatalogueapp.R
 import com.haidev.moviecatalogueapp.ui.home.HomeActivity
 import com.haidev.moviecatalogueapp.utils.EspressoIdlingResource
+import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +30,12 @@ class TvShowFragmentTest {
 
     @Test
     fun loadListTvShow() {
-        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_tv_show),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.rv_tv_show))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.rv_tv_show))
@@ -40,7 +46,12 @@ class TvShowFragmentTest {
 
     @Test
     fun clickDetailTvShow() {
-        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_tv_show),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.rv_tv_show))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -52,7 +63,12 @@ class TvShowFragmentTest {
 
     @Test
     fun clickBackDetailTvShow() {
-        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_tv_show),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.rv_tv_show))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -65,7 +81,12 @@ class TvShowFragmentTest {
 
     @Test
     fun clickShareDetailTvShow() {
-        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_tv_show),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.rv_tv_show))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -78,7 +99,12 @@ class TvShowFragmentTest {
 
     @Test
     fun clickFavoriteDetailTvShow() {
-        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_tv_show),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.rv_tv_show))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(

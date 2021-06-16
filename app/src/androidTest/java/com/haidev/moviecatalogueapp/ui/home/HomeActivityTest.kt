@@ -7,6 +7,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import com.haidev.moviecatalogueapp.R
 import com.haidev.moviecatalogueapp.utils.EspressoIdlingResource
+import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -25,10 +26,30 @@ class HomeActivityTest {
 
     @Test
     fun checkTabLayout() {
-        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.text_movie)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.text_tv_show)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.text_movie)).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_tv_show),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_movie),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_tv_show),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText(R.string.text_movie),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
     }
 
     @Test
