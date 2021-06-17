@@ -1,14 +1,13 @@
 package com.haidev.moviecatalogueapp.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.paging.DataSource
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.DetailTvShow
-import com.haidev.moviecatalogueapp.data.model.ListMovie
-import com.haidev.moviecatalogueapp.data.model.ListTvShow
+import com.haidev.moviecatalogueapp.data.model.Resource
 import com.haidev.moviecatalogueapp.data.source.dao.MovieDao
 import com.haidev.moviecatalogueapp.data.source.dao.TvShowDao
 import com.haidev.moviecatalogueapp.data.source.endpoint.ApiService
+import com.haidev.moviecatalogueapp.ui.utils.PagedListUtil
 import com.haidev.moviecatalogueapp.ui.utils.TestCoroutineRule
 import com.haidev.moviecatalogueapp.utils.ContextProviders
 import com.haidev.moviecatalogueapp.utils.DataDummy
@@ -20,7 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
@@ -30,18 +28,6 @@ class ApiRepositoryTest {
 
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
-
-    @Mock
-    private lateinit var responseMovies: List<ListMovie.Response.Result>
-
-    @Mock
-    private lateinit var responseTvShow: List<ListTvShow.Response.Result>
-
-    @Mock
-    private lateinit var responseDetailMovies: DetailMovie.Response
-
-    @Mock
-    private lateinit var responseDetailTvShow: DetailTvShow.Response
 
     @Mock
     private val apiService: ApiService? = null
@@ -55,7 +41,7 @@ class ApiRepositoryTest {
     @Mock
     private lateinit var coroutineContext: ContextProviders
 
-    private var apiRepo =
+    private var repo =
         apiService?.let { FakeApiRepository(it, movieDao, tvShowDao, coroutineContext) }
 
     private val dummyMovies = DataDummy.generateDummyListMovie()
@@ -65,9 +51,6 @@ class ApiRepositoryTest {
     private val dummyDetailTvShow: DetailTvShow.Response =
         DataDummy.generateDummyDetailTvShow().first()
 
-    @Mock
-    private lateinit var repo: ApiRepository
-
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
@@ -76,56 +59,48 @@ class ApiRepositoryTest {
     @Test
     fun getListMovie() {
         testCoroutineRule.runBlockingTest {
-            responseMovies = dummyMovies
+            repo?.getListMovie()
 
-            val dataSourceFactory =
-                Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, ListMovie.Response.Result>
-            Mockito.`when`(repo.getAllMovie()).thenReturn(dataSourceFactory)
-            apiRepo?.getListMovie()
-
-            assertNotNull(responseMovies)
-            assertEquals(1, responseMovies.size)
+            val movieEntity = Resource.success(PagedListUtil.mockPagedList(dummyTvShow))
+            repo?.getAllMovie()
+            assertNotNull(movieEntity.data)
+            assertEquals(dummyMovies.size.toLong(), movieEntity.data?.size?.toLong())
         }
     }
 
     @Test
     fun getListTvShow() {
         testCoroutineRule.runBlockingTest {
-            responseTvShow = dummyTvShow
+            repo?.getListTvShow()
 
-            val dataSourceFactory =
-                Mockito.mock(DataSource.Factory::class.java) as DataSource.Factory<Int, ListTvShow.Response.Result>
-            Mockito.`when`(repo.getAllTvShow()).thenReturn(dataSourceFactory)
-            apiRepo?.getListTvShow()
-
-            assertNotNull(responseTvShow)
-            assertEquals(1, responseTvShow.size)
+            val tvShowEntity = Resource.success(PagedListUtil.mockPagedList(dummyTvShow))
+            repo?.getAllTvShow()
+            assertNotNull(tvShowEntity.data)
+            assertEquals(dummyTvShow.size.toLong(), tvShowEntity.data?.size?.toLong())
         }
     }
 
     @Test
     fun getDetailMovie() {
         testCoroutineRule.runBlockingTest {
-            responseDetailMovies = dummyDetailMovies
+            repo?.getDetailMovie("337404")
 
-            Mockito.`when`(repo.getDetailMovie("337404"))
-                .thenReturn(responseDetailMovies)
-
-            assertNotNull(responseDetailMovies)
-            assertEquals(337404, responseDetailMovies.id)
+            val detailMovie =
+                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyDetailMovie()))
+            assertNotNull(detailMovie.data)
+            assertEquals(dummyDetailMovies.id, detailMovie.data?.first()?.id)
         }
     }
 
     @Test
     fun getDetailTvShow() {
         testCoroutineRule.runBlockingTest {
-            responseDetailTvShow = dummyDetailTvShow
+            repo?.getDetailTvShow("63174")
 
-            Mockito.`when`(repo.getDetailTvShow("63174"))
-                .thenReturn(responseDetailTvShow)
-
-            assertNotNull(responseDetailTvShow)
-            assertEquals(63174, responseDetailTvShow.id)
+            val detailTvShow =
+                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyDetailTvShow()))
+            assertNotNull(detailTvShow.data)
+            assertEquals(dummyDetailTvShow.id, detailTvShow.data?.first()?.id)
         }
     }
 }

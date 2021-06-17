@@ -16,12 +16,15 @@ import com.haidev.moviecatalogueapp.utils.ErrorUtils
 import com.haidev.moviecatalogueapp.utils.launchOn
 import com.haidev.moviecatalogueapp.utils.safeApiCall
 
-class FakeApiRepository(
+class FakeApiRepository constructor(
     private val apiService: ApiService,
     private val movieDao: MovieDao,
     private val tvShowDao: TvShowDao,
     private val coroutineContext: ContextProviders
 ) {
+    fun getAllMovie() = movieDao.readAllMovie()
+    fun getAllTvShow() = tvShowDao.readAllTvShow()
+
     fun getListMovie(): LiveData<Resource<PagedList<ListMovie.Response.Result>>> {
         return object :
             NetworkBoundResource<PagedList<ListMovie.Response.Result>, List<ListMovie.Response.Result>>(
