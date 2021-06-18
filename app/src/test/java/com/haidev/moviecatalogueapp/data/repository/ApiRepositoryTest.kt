@@ -103,4 +103,53 @@ class ApiRepositoryTest {
             assertEquals(dummyDetailTvShow.id, detailTvShow.data?.first()?.id)
         }
     }
+
+    @Test
+    fun getDataAllFavoriteMovie() {
+        testCoroutineRule.runBlockingTest {
+            repo?.getAllMovieFavorite()
+
+            val listFavoriteMovie =
+                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyDetailMovie()))
+            assertNotNull(listFavoriteMovie.data)
+            assertEquals(dummyDetailMovies, listFavoriteMovie.data?.first())
+        }
+    }
+
+    @Test
+    fun getDataAllFavoriteTvMovie() {
+        testCoroutineRule.runBlockingTest {
+            repo?.getAllTvShowFavorite()
+
+            val listFavoriteTvShow =
+                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyDetailTvShow()))
+            assertNotNull(listFavoriteTvShow.data)
+            assertEquals(dummyDetailTvShow, listFavoriteTvShow.data?.first())
+        }
+    }
+
+    @Test
+    fun getDataFavoriteMovieById() {
+        testCoroutineRule.runBlockingTest {
+            repo?.getMovieFavorite(337404)
+
+            val favoriteMovie =
+                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyDetailMovie()))
+            assertNotNull(favoriteMovie.data)
+            assertEquals(dummyDetailMovies.id, favoriteMovie.data?.first()?.id)
+        }
+    }
+
+    @Test
+    fun getDataFavoriteTvShowById() {
+        testCoroutineRule.runBlockingTest {
+            repo?.getTvShowFavorite(63174)
+
+            val favoriteTvShow =
+                Resource.success(PagedListUtil.mockPagedList(DataDummy.generateDummyDetailTvShow()))
+            assertNotNull(favoriteTvShow.data)
+            assertEquals(dummyDetailTvShow.id, favoriteTvShow.data?.first()?.id)
+        }
+    }
+
 }

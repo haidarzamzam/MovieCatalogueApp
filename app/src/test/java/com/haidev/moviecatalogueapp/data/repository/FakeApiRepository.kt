@@ -23,7 +23,12 @@ class FakeApiRepository constructor(
     private val coroutineContext: ContextProviders
 ) {
     fun getAllMovie() = movieDao.readAllMovie()
+    fun getAllMovieFavorite() = movieDao.readAllMovieFavorite()
+    fun getMovieFavorite(idMovie: Int) = movieDao.readMovieFavorite(idMovie)
+
     fun getAllTvShow() = tvShowDao.readAllTvShow()
+    fun getAllTvShowFavorite() = tvShowDao.readAllTvShowFavorite()
+    fun getTvShowFavorite(idTvShow: Int) = tvShowDao.readTvShowFavorite(idTvShow)
 
     fun getListMovie(): LiveData<Resource<PagedList<ListMovie.Response.Result>>> {
         return object :
