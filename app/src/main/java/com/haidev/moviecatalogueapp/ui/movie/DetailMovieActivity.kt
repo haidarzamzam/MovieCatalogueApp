@@ -85,11 +85,17 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
         }
 
         binding?.btnShare?.setOnClickListener {
+            val text = getString(
+                R.string.share_movie,
+                movie.title,
+                movie.vote_average.toString(),
+                movie.original_language
+            )
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(
                 Intent.EXTRA_TEXT,
-                "Movie title : \"${movie.title}\" with rating \"${movie.vote_average}\" and use language \"${movie.original_language}\""
+                text
             )
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
@@ -103,7 +109,8 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
                     detailMovieViewModel.addFavoriteMovie(detailMovie)
                 }
             } else {
-                Toast.makeText(this, "Wait until data loaded!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.text_waiting_loaded), Toast.LENGTH_SHORT)
+                    .show()
             }
 
             initCheckFavorite()

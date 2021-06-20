@@ -10,4 +10,7 @@
     <string name="text_favorite">Favorite</string>
     <string name="text_close">Close</string>
     <string name="text_no_data">No data favorite</string>
+    <string name="text_waiting_loaded">Wait until data loaded!</string>
+    <string name="share_tv_show">Tv Show with name \"%1$s\" with rating \"%2$s\" and use language \"%3$s\".</string>
+    <string name="share_movie">Movie with title \"%1$s\" with rating \"%2$s\" and use language \"%3$s\".</string>
 </resources>

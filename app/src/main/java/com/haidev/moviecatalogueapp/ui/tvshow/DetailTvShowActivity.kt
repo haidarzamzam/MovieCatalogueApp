@@ -85,11 +85,17 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
         }
 
         binding?.btnShare?.setOnClickListener {
+            val text = getString(
+                R.string.share_tv_show,
+                tvshow.name,
+                tvshow.vote_average.toString(),
+                tvshow.original_language
+            )
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(
                 Intent.EXTRA_TEXT,
-                "Tv Show dengan judul \"${tvshow.name}\" dengan rating \"${tvshow.vote_average}\" dan menggunakan bahasa \"${tvshow.original_language}\""
+                text
             )
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
@@ -103,7 +109,7 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
                     detailTvShowViewModel.addFavoriteTvSHow(detailTvshow)
                 }
             } else {
-                Toast.makeText(this, "Wait until data loaded!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.text_waiting_loaded, Toast.LENGTH_SHORT).show()
             }
 
             initCheckFavorite()
