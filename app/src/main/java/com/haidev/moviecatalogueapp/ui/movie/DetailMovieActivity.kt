@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import com.haidev.moviecatalogueapp.BuildConfig
 import com.haidev.moviecatalogueapp.R
 import com.haidev.moviecatalogueapp.data.model.DetailMovie
 import com.haidev.moviecatalogueapp.data.model.ListMovie
@@ -67,11 +68,11 @@ class DetailMovieActivity : BaseActivity<ActivityDetailMovieBinding, DetailMovie
             intent.getParcelableExtra<ListMovie.Response.Result>(EXTRA_MOVIE) as ListMovie.Response.Result
         initCheckFavorite()
         binding?.ivBackdrop?.let {
-            Glide.with(this).load("https://image.tmdb.org/t/p/w400/${movie.backdrop_path}")
+            Glide.with(this).load(BuildConfig.API_URL_IMAGE + movie.backdrop_path)
                 .into(it)
         }
         binding?.ivPoster?.let {
-            Glide.with(this).load("https://image.tmdb.org/t/p/w400/${movie.poster_path}")
+            Glide.with(this).load(BuildConfig.API_URL_IMAGE + movie.poster_path)
                 .into(it)
         }
         binding?.tvTitle?.text = movie.title

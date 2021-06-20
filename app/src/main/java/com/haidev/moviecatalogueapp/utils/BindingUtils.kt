@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
+import com.haidev.moviecatalogueapp.BuildConfig
 
 @BindingAdapter("srcGlide")
 fun ImageView.setGlideImage(imageUrl: String?) {
@@ -12,11 +13,12 @@ fun ImageView.setGlideImage(imageUrl: String?) {
         if (it.substringAfterLast(".").equals("svg", true))
             GlideToVectorYou.justLoadImage(
                 getParentActivity(),
-                Uri.parse("https://image.tmdb.org/t/p/w500/$it"),
+                Uri.parse(
+                    BuildConfig.API_URL_IMAGE + it
+                ),
                 this
             )
         else
-            Glide.with(context).load("https://image.tmdb.org/t/p/w200/$it").into(this)
+            Glide.with(context).load(BuildConfig.API_URL_IMAGE + it).into(this)
     }
 }
-

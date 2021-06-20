@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import com.haidev.moviecatalogueapp.BuildConfig
 import com.haidev.moviecatalogueapp.R
 import com.haidev.moviecatalogueapp.data.model.DetailTvShow
 import com.haidev.moviecatalogueapp.data.model.ListTvShow
@@ -67,11 +68,11 @@ class DetailTvShowActivity : BaseActivity<ActivityDetailTvShowBinding, DetailTvS
             intent.getParcelableExtra<ListTvShow.Response.Result>(EXTRA_TV) as ListTvShow.Response.Result
         initCheckFavorite()
         binding?.ivBackdrop?.let {
-            Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.backdrop_path}")
+            Glide.with(this).load(BuildConfig.API_URL_IMAGE + tvshow.backdrop_path)
                 .into(it)
         }
         binding?.ivPoster?.let {
-            Glide.with(this).load("https://image.tmdb.org/t/p/w400/${tvshow.poster_path}")
+            Glide.with(this).load(BuildConfig.API_URL_IMAGE + tvshow.poster_path)
                 .into(it)
         }
         binding?.tvTitle?.text = tvshow.name
